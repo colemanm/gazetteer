@@ -34,7 +34,7 @@ create table geoname (
 	geonameid	int,
 	name varchar(200),
 	asciiname varchar(200),
-	alternatenames varchar(6000),
+	alternatenames varchar(8000),
 	latitude float,
 	longitude float,
 	fclass char(1),
@@ -60,7 +60,9 @@ create table alternatename (
 	isoLanguage varchar(7),
 	alternateName varchar(200),
 	isPreferredName boolean,
-	isShortName boolean
+	isShortName boolean,
+	isColloquial boolean,
+	isHistoric boolean
  );
 ```
 
@@ -95,7 +97,7 @@ copy geoname (geonameid,name,asciiname,alternatenames,latitude,longitude,fclass,
 ```
 
 ```sql
-copy alternatename  (alternatenameid,geonameid,isolanguage,alternatename,ispreferredname,isshortname) from 'alternateNames.txt' null as '';
+copy alternatename  (alternatenameid,geonameid,isolanguage,alternatename,ispreferredname,isshortname,iscolloquial,ishistoric) from 'alternateNames.txt' null as '';
 ```
 
 ```sql
@@ -122,7 +124,7 @@ ALTER TABLE ONLY alternatename
 ```sql
 SELECT AddGeometryColumn ('public','geoname','the_geom',4326,'POINT',2);
 
-UPDATE geoname SET the_geom = PointFromText('POINT(' || longitude || ' ' || latitude || ')', 4326);
+UPDATE geoname SET the_geom = ST_PointFromText('POINT(' || longitude || ' ' || latitude || ')', 4326);
 
 CREATE INDEX idx_geoname_the_geom ON public.geoname USING gist(the_geom);
 ```
