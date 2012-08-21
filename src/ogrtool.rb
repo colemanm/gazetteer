@@ -63,6 +63,14 @@ class OgrTool < Thor
     basename = "#{File.basename(options[:file], File.extname(options[:file]))}"
     puts `ogrinfo -so #{file} #{basename} | grep -w Geometry | sed 's/Geometry: //g'`
   end
+
+  desc "parse", "Do something with a bunch of files in a text file"
+  method_option :file, :aliases => '-f', :desc => "Text file to parse", :required => true
+  def parse
+    File.open(options[:file]).each_line do |line|
+      puts line
+    end
+  end
   
 end
 
