@@ -1,4 +1,4 @@
-PREFIX     ?= ~/local/gazeteer
+PREFIX     ?= ~/local/gazetteer
 BIN_PREFIX ?= $(PREFIX)/bin
 
 BIN_SCRIPTS := $(wildcard src/*)
