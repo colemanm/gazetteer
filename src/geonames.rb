@@ -75,18 +75,20 @@ class GeoNames < Thor
   
   desc "country", "Extract a chunk of a GeoNames database by country and insert into a new table."
   method_option :dbname, :aliases => "-d", :desc => "Database name", :required => true
+  method_option :user, :aliases => "-u", :desc => "Database user name", :required => true
   method_option :src, :aliases => "-s", :desc => "Source table name", :required => true
   method_option :dst, :aliases => "-t", :desc => "Destination table name", :required => true
   method_option :country, :aliases => "-c", :desc => "Country code you want to extract and insert.", :required => true
   def country
-    `psql -d #{options[:dbname]} -c "CREATE TABLE #{options[:dst]} AS SELECT * FROM #{options[:src]} WHERE country = '#{options[:country]}'"`
+    `psql -U #{options[:user]} -d #{options[:dbname]} -c "CREATE TABLE #{options[:dst]} AS SELECT * FROM #{options[:src]} WHERE country = '#{options[:country]}'"`
   end
   
   desc "list", "List countries available in a GeoNames database."
   method_option :dbname, :aliases => "-d", :desc => "Database name", :required => true
+  method_option :user, :aliases => "-u", :desc => "Database user name", :required => true
   method_option :table, :aliases => "-t", :desc => "Table containing GeoNames records", :required => true
   def list
-    `psql -d #{options[:dbname]} -c "SELECT DISTINCT country FROM #{options[:table]} ORDER BY country ASC"`
+    `psql -U #{options[:user]} -d #{options[:dbname]} -c "SELECT DISTINCT country FROM #{options[:table]} ORDER BY country ASC"`
   end
     
 end
