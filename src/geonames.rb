@@ -76,7 +76,7 @@ class GeoNames < Thor
   desc "country", "Extract a chunk of a GeoNames database by country and insert into a new table."
   method_option :dbname, :aliases => "-d", :desc => "Database name", :required => true
   method_option :src, :aliases => "-s", :desc => "Source table name", :required => true
-  method_option :dst, :aliases => "-d", :desc => "Destination table name", :required => true
+  method_option :dst, :aliases => "-t", :desc => "Destination table name", :required => true
   method_option :country, :aliases => "-c", :desc => "Country code you want to extract and insert.", :required => true
   def country
     `psql -d #{options[:dbname]} -c "CREATE TABLE #{options[:dst]} AS SELECT * FROM #{options[:src]} WHERE country = '#{options[:country]}'"`
