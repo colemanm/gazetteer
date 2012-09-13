@@ -81,6 +81,14 @@ class GeoNames < Thor
   def country
     `psql -d #{options[:dbname]} -c "CREATE TABLE #{options[:dst]} AS SELECT * FROM #{options[:src]} WHERE country = '#{options[:country]}'"`
   end
+  
+  desc "list", "List countries available in a GeoNames database."
+  method_option :dbname, :aliases => "-d", :desc => "Database name", :required => true
+  method_option :table, :aliases => "-t", :desc => "Table containing GeoNames records", :required => true
+  method_option :country, :aliases => "-c", :desc => "Country code you want to extract and insert.", :required => true
+  def list
+    `psql -d #{options[:dbname]} -c "SELECT DISTINCT country FROM #{options[:table]} ORDER BY country ASC"`
+  end
     
 end
 
