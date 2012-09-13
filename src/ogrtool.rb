@@ -29,19 +29,19 @@ class OgrTool < Thor
   method_option :overwrite, :aliases => '-O', :desc => "Overwrite current layer(s)", :type => :boolean
   method_option :skipfailures, :aliases => '-S', :desc => "Skip failed row imports", :type => :boolean
   def topg
-  	db_connection = "\"host=#{options[:host]} dbname=#{options[:dbname]} user=#{options[:user]} port=#{options[:port]}\""
+  	db_connection = "host=#{options[:host]} dbname=#{options[:dbname]} user=#{options[:user]} port=#{options[:port]}"
   	layer = options[:layer] if options[:layer]
-  	nlt = "-nlt #{options[:type]}"
+  	nlt = "-nlt #{options[:type]}" if options[:type]
   	lco = "-lco GEOMETRY_NAME=#{options[:geometry]}" if options[:geometry]
   	overwrite = "-overwrite" if options[:overwrite]
   	skipfailures = "-skipfailures" if options[:skipfailures]
-  	puts "ogr2ogr -f \"PostgreSQL\" PG:#{db_connection} #{options[:file]} #{layer} #{nlt} #{lco} #{overwrite} #{skipfailures}"
+  	`ogr2ogr -f "PostgreSQL" PG:"#{db_connection}" #{options[:file]} #{layer} #{nlt} #{lco} #{overwrite} #{skipfailures}`
   end
 
   desc "shproject", "Reproject a shapefile using source and destination SRS EPSG codes."
   method_option :inputfile, :aliases => '-f', :desc => "File to reproject", :required => true
-  method_option :s_srs, :aliases => '-s', :desc => "Source data SRS"
-  method_option :t_srs, :aliases => '-t', :desc => "Destination data SRS"
+  method_option :s_srs, :aliases => '-s', :desc => "Source data SRS", :required => true
+  method_option :t_srs, :aliases => '-t', :desc => "Destination data SRS", :required => true
   def shproject
   	input_file = options[:inputfile]
   	output_file = "#{File.join(File.dirname(options[:inputfile]), File.basename(options[:inputfile], File.extname(options[:inputfile])))}_project.shp"
