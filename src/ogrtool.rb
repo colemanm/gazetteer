@@ -37,11 +37,11 @@ class OgrTool < Thor
   def topg
     db_config = YAML.load(File.read(File.expand_path('~/.postgis')))
     db_config.merge!({
-      'host'      => options[:host],
-      'user'      => options[:user],
-      'dbname'    => options[:dbname],
-      'port'      => options[:port],
-      'encoding'  => options[:encoding]
+      'host'    => options[:host],
+      'user'    => options[:user],
+      'dbname'  => options[:dbname],
+      'port'    => options[:port],
+      'options' => "'-c client_encoding=#{options[:encoding]}'"
     }.reject{|k,v| v.nil?})
     db_connection = db_config.reject{|k,v| v.nil?}.map{ |k,v| "#{k}=#{v}" }.join(' ')
   	layer = options[:layer] if options[:layer]
