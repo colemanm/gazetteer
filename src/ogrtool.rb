@@ -21,6 +21,7 @@ class OgrTool < Thor
   desc "topg", "Import a GIS data file into PostGIS."
   method_option :file, :aliases => '-f', :desc => "File to import", :required => true
   method_option :layer, :aliases => '-l', :desc => "Layer name to import"
+  method_option :list, :aliases => '-L', :desc => "Pass a list of layers and layer types for import, comma separated (e.g: layer_name,MULTIPOLYGON)"
   method_option :source, :aliases => '-s', :desc => "Source SRID to convert from"
   method_option :transform, :aliases => '-t', :desc => "Destination SRID to tranform to"
   method_option :assign, :aliases => '-a', :desc => "Assign this SRID on table creation"
@@ -28,6 +29,7 @@ class OgrTool < Thor
   method_option :user, :aliases => '-u', :desc => "Username to connect to database"
   method_option :dbname, :aliases => '-d', :desc => "PostGIS database to connect to"
   method_option :port, :aliases => '-p', :desc => "PostgreSQL server port number"
+  method_option :encoding, :aliases => '-e', :desc => "Specify client encoding (e.g. latin1, UTF8, cp936, etc.)"
   method_option :type, :aliases => '-T', :desc => "Cast to a new layer type, such as multipolygon or multilinestring"
   method_option :geometry, :aliases => '-g', :desc => "Set a custom geometry column name"
   method_option :overwrite, :aliases => '-O', :desc => "Overwrite current layer(s)", :type => :boolean
@@ -35,10 +37,11 @@ class OgrTool < Thor
   def topg
     db_config = YAML.load(File.read(File.expand_path('~/.postgis')))
     db_config.merge!({
-      'host'    => options[:host],
-      'user'    => options[:user],
-      'dbname'  => options[:dbname],
-      'port'    => options[:port]
+      'host'      => options[:host],
+      'user'      => options[:user],
+      'dbname'    => options[:dbname],
+      'port'      => options[:port],
+      'encoding'  => options[:encoding]
     }.reject{|k,v| v.nil?})
     db_connection = db_config.reject{|k,v| v.nil?}.map{ |k,v| "#{k}=#{v}" }.join(' ')
   	layer = options[:layer] if options[:layer]
