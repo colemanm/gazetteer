@@ -54,6 +54,7 @@ class OgrTool < Thor
   	  srid_params = srid_params.join(' ')
   	overwrite = "-overwrite" if options[:overwrite]
   	skipfailures = "-skipfailures" if options[:skipfailures]
+  	puts "Running: ogr2ogr -f \"PostgreSQL\" #{srid_params} PG:\"#{db_connection}\" #{options[:file]} #{layer} #{nlt} #{lco} #{overwrite} #{skipfailures}"
   	`ogr2ogr -f "PostgreSQL" #{srid_params} PG:"#{db_connection}" #{options[:file]} #{layer} #{nlt} #{lco} #{overwrite} #{skipfailures}`
   end
 
