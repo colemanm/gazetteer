@@ -51,6 +51,13 @@ class GeoNames < Thor
     end
   end
 
+  desc "altnames", "Create table and import alternate names data."
+  method_option :dbname, :aliases => "-d", :desc => "Database name", :required => true
+  method_option :file, :aliases => "-f", :desc => "Alternate names file, full path", :required => true
+  def altnames
+    `psql -d #{options[:dbname]} -c "copy copy alternatename  (alternatenameid,geonameid,isolanguage,alternatename,ispreferredname,isshortname,iscolloquial,ishistoric) from '#{options[:file]}' null as ''"`
+  end
+
   desc "import", "Import GeoNames data."
   method_option :dbname, :aliases => "-d", :desc => "Database name"
   method_option :file, :aliases => "-f", :desc => "GeoNames text file to import, full path"

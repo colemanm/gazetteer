@@ -89,6 +89,7 @@ create table "countryinfo" (
 	equivfipscode varchar(3)
 );
 ```
+
 #### Insert the data
 Run these from the SQL prompt as a permitted user.
 

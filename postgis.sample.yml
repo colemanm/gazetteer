@@ -1,0 +1,12 @@
+default:
+	host: localhost
+	user: postgres
+	password: postgres
+	port: 5432
+
+# Define custom server connection parameters
+
+connection_name:
+	host: server.com
+	user: username
+	port: 1234
