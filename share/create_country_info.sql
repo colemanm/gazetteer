@@ -1,4 +1,4 @@
-# Create countryinfo table, for reference country data
+-- Create countryinfo table, for reference country data
 
 create table "countryinfo" (
 	iso_alpha2 char(2),

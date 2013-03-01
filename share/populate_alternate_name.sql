@@ -1,4 +1,4 @@
-# Populate alternate names table from file
+-- Populate alternate names table from file
 
 copy alternatename (
 	alternatenameid,

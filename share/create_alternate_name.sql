@@ -1,4 +1,4 @@
-# Create alternate names table
+-- Create alternate names table
 
 create table alternatename (
 	alternatenameId int,

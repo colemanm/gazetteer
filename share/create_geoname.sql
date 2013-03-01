@@ -1,4 +1,4 @@
-# Create placeholder GeoNames table
+-- Create placeholder GeoNames table
 
 create table geoname (
 	geonameid	int,

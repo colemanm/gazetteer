@@ -1,4 +1,4 @@
-# Insert GeoNames data
+-- Insert GeoNames data
 
 copy geoname (
 	geonameid,

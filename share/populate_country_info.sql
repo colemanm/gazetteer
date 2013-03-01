@@ -1,4 +1,4 @@
-# Populate countryinfo table from file
+-- Populate countryinfo table from file
 
 copy countryinfo (
 	iso_alpha2,
