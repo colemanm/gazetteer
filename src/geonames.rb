@@ -4,7 +4,7 @@ require 'rubygems'
 require 'thor'
 require 'pg'
 
-class GeoNames < Thor
+class Gazetteer < Thor
 
   desc "download", "Download the GeoNames data for a country."
   method_option :country, :aliases => "-c", :desc => "Download a specific country's data"
@@ -22,33 +22,39 @@ class GeoNames < Thor
     end
   end
 
-  desc "createtables", "Create GeoNames Postgres tables."
+  desc "createtables", "Create GeoNames PostGIS tables."
   method_option :dbname, :aliases => "-d", :desc => "Database name", :required => true
   def createtables
     geoname = options[:geoname]
     alternatenames = options[:altname]
     countryinfo = options[:countryinfo]
-    all = options[:all]
 
     puts "Creating \"geoname\" table..."
     `psql -d #{options[:dbname]} -f "#{File.join(File.dirname(__FILE__), '..', 'share', 'create_geoname.sql')}"`
     puts "Table \"geoname\" created."
 
     puts "Creating \"alternatenames\" table..."
-    `psql -d #{options[:dbname]} -c "#{File.join(File.dirname(__FILE__), '..', 'share', 'create_alternate_name.sql')}"`
+    `psql -d #{options[:dbname]} -f "#{File.join(File.dirname(__FILE__), '..', 'share', 'create_alternate_name.sql')}"`
     puts "Table \"alternatenames\" created."
     
     puts "Creating \"countryinfo\" table..."
-    `psql -d #{options[:dbname]} -c "#{File.join(File.dirname(__FILE__), '..', 'share', 'create_country_info.sql')}"`
+    `psql -d #{options[:dbname]} -f "#{File.join(File.dirname(__FILE__), '..', 'share', 'create_country_info.sql')}"`
     puts "Table \"countryinfo\" created."
-    
+
+    puts "Setting primary keys..."
+    `psql -d #{options[:dbname]} -f "#{File.join(File.dirname(__FILE__), '..', 'share', 'create_primary_keys.sql')}"`
+    puts "Primary keys created."
+
+    puts "Setting foreign keys..."
+    `psql -d #{options[:dbname]} -f "#{File.join(File.dirname(__FILE__), '..', 'share', 'create_foreign_keys.sql')}"`
+    puts "Foreign keys created."
   end
 
-  desc "altnames", "Create table and import alternate names data."
+  desc "altnames", "Import alternate names data table."
   method_option :dbname, :aliases => "-d", :desc => "Database name", :required => true
   method_option :file, :aliases => "-f", :desc => "Alternate names file, full path", :required => true
   def altnames
-    `psql -d #{options[:dbname]} -c "copy copy alternatename (alternatenameid,geonameid,isolanguage,alternatename,ispreferredname,isshortname,iscolloquial,ishistoric) from '#{options[:file]}' null as ''"`
+    `psql -d #{options[:dbname]} -c "copy alternatename (alternatenameid,geonameid,isolanguage,alternatename,ispreferredname,isshortname,iscolloquial,ishistoric) from '#{options[:file]}' null as ''"`
   end
 
   desc "import", "Import GeoNames data."
@@ -93,4 +99,4 @@ class GeoNames < Thor
     
 end
 
-GeoNames.start
+Gazetteer.start
