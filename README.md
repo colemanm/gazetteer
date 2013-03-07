@@ -3,6 +3,8 @@ _A set of tools for working with GeoNames data._
 
 ## Downloading data
 
+There are several tasks in the Makefile that can download and prepare different data, depending on what you need.
+
 ### Full database
 
 Downloading the full database will download and extract the the global GeoNames data, along with all metadata tables. Files are downloaded to the `data` directory in the repo.
@@ -34,3 +36,8 @@ If you only want names data for cities and places (for map labeling purposes), t
 ```shell
 make cities
 ```
+
+## Other Resources
+
+* [Data sources](http://www.geonames.org/data-sources.html)
+* [GeoNames FAQ](http://forum.geonames.org/gforum/forums/show/6.page)

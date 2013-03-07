@@ -6,7 +6,14 @@ require 'pg'
 
 class Gazetteer < Thor
 
-  desc "download", "Download the GeoNames data for a country."
+  desc "code", "Search for the correct 2-letter ISO country code, by search term."
+  method_option :search, :aliases => "-s", :desc => "Phrase or name to search for."
+  def code
+    codes = File.join(File.dirname(__FILE__) , "..", "share", "iso_3166-1.txt")
+    puts codes
+  end
+
+  desc "download", "Download the GeoNames data for a specific country."
   method_option :country, :aliases => "-c", :desc => "Download a specific country's data"
   def download
     country = options[:country]
@@ -57,13 +64,15 @@ class Gazetteer < Thor
     `psql -d #{options[:dbname]} -c "copy alternatename (alternatenameid,geonameid,isolanguage,alternatename,ispreferredname,isshortname,iscolloquial,ishistoric) from '#{options[:file]}' null as ''"`
   end
 
-  desc "import", "Import GeoNames data."
-  method_option :dbname, :aliases => "-d", :desc => "Database name"
-  method_option :file, :aliases => "-f", :desc => "GeoNames text file to import, full path"
-  def import
-    puts "Importing names from #{options[:file]}..."
-    `psql -d #{options[:dbname]} -c "copy geoname (geonameid,name,asciiname,alternatenames,latitude,longitude,fclass,fcode,country,cc2,admin1,admin2,admin3,admin4,population,elevation,gtopo30,timezone,moddate) from '#{options[:file]}' null as ''"`
-  end
+  # desc "import", "Import GeoNames data."
+  # method_option :dbname, :aliases => "-d", :desc => "Database name"
+  # method_option :file, :aliases => "-f", :desc => "GeoNames text file to import, full path"
+  # def import
+  #   puts "Importing names from #{options[:file]}..."
+  #   conn = PG.connect( dbname: options[:dbname] )
+  #   # conn.exec('COPY geoname ')
+  #   # `psql -d #{options[:dbname]} -c "copy geoname (geonameid,name,asciiname,alternatenames,latitude,longitude,fclass,fcode,country,cc2,admin1,admin2,admin3,admin4,population,elevation,gtopo30,timezone,moddate) from '#{options[:file]}' null as ''"`
+  # end
   
   # UNFINISHED
   desc "query", "Poll your local GeoNames database."

@@ -1,9 +1,9 @@
 PREFIX					?= ~/local/gazetteer
 BIN_PREFIX			?= $(PREFIX)/bin
 SHARE_PREFIX		?= $(PREFIX)/share
-CONFIG_PREFIX 	?= ~
+CONFIG_PREFIX		?= ~
 
-BIN_SCRIPTS	 		:= $(wildcard src/*)
+BIN_SCRIPTS			:= $(wildcard src/*)
 SHARE_SCRIPTS		:= $(wildcard share/*)
 
 install:
