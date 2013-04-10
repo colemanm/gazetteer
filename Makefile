@@ -50,7 +50,6 @@ data/alternatenames.txt: data/alternatenames.zip
 	rm data/alternatenames.zip
 
 # Cities
-
 data/cities15000.zip:
 	curl -o data/cities15000.zip "http://download.geonames.org/export/dump/cities15000.zip"
 

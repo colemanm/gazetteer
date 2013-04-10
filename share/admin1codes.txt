@@ -1,4 +1,3 @@
-code	countrycode	admin1_code	name	alt_name_english	geonameid
 AD.06	AD	06	Parròquia de Sant Julià de Lòria	Parroquia de Sant Julia de Loria	3039162
 AD.05	AD	05	Parròquia d'Ordino	Parroquia d'Ordino	3039676
 AD.04	AD	04	Parròquia de la Massana	Parroquia de la Massana	3040131

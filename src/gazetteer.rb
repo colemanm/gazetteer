@@ -261,7 +261,6 @@ class Gazetteer < Thor
           code,
           countrycode,
           admin1_code,
-          admin2_code,
           name,
           alt_name_english,
           geonameid
