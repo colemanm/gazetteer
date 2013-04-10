@@ -7,7 +7,7 @@ This tool is designed to simplify the process of getting a local database of Geo
 
 ## Downloading data
 
-There are several tasks in the Makefile that can download and prepare different data, depending on what you need.
+There are several tasks in the [Makefile](http://bost.ocks.org/mike/make/) that can download and prepare different data, depending on what you need.
 
 ### Full database
 

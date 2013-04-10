@@ -23,7 +23,6 @@ install:
 data: \
 	data/allcountries.txt \
 	data/alternatenames.txt \
-	metadata \
 	cities
 
 # Download cities only
@@ -50,24 +49,7 @@ data/alternatenames.txt: data/alternatenames.zip
 	touch data/iso-languagecodes.txt
 	rm data/alternatenames.zip
 
-# Metadata
-metadata: \
-	data/countryinfo.txt \
-	data/featurecodes.txt \
-	data/admin1codes.txt \
-	data/admin2codes.txt
-
-data/countryinfo.txt:
-	curl -o data/countryinfo.txt http://download.geonames.org/export/dump/countryInfo.txt
-data/featurecodes.txt:
-	curl -o data/featurecodes.txt "http://download.geonames.org/export/dump/featureCodes_en.txt"
-data/admin1codes.txt:
-	curl -o data/admin1codes.txt "http://download.geonames.org/export/dump/admin1CodesASCII.txt"
-data/admin2codes.txt:
-	curl -o data/admin2codes.txt "http://download.geonames.org/export/dump/admin2Codes.txt"
-
 # Cities
-
 
 data/cities15000.zip:
 	curl -o data/cities15000.zip "http://download.geonames.org/export/dump/cities15000.zip"
