@@ -1,6 +1,10 @@
 # Gazetteer
 _A set of tools for working with GeoNames data._
 
+[GeoNames](http://www.geonames.org/) is an incredible open dataset of place and geographic feature names, containing almost 10 million geolocated names, available for free. It's compiled from dozens of [sources](http://www.geonames.org/data-sources.html), user submissions and updates. There are a number of [web services](http://www.geonames.org/export/ws-overview.html) and client libraries built for searching and interacting with the data, but working with it in bulk is more difficult.
+
+This tool is designed to simplify the process of getting a local database of GeoNames data running for use in cartographic products or analysis tools. My excuse is for making maps in [TileMill](http://mapbox.com/tilemill).
+
 ## Downloading data
 
 There are several tasks in the Makefile that can download and prepare different data, depending on what you need.
