@@ -31,6 +31,7 @@ Download only metadata tables with:
 
 ```shell
 make metadata
+```
 
 If you only want names data for cities and places (for map labeling purposes), there are maintained subsets of placenames for cities divided by population: cities with population over 1000, 5000, and 15000.
 
@@ -42,7 +43,13 @@ To clean up the `data/` cache after you've run imports, run `make clean`.
 
 ## Usage
 
+**code** - Search for an ISO code by name or partial string:
 
+```shell
+./gazetteer code -s "United"    # Returns "US"
+```
+
+**createtables** - Create table structures for GeoNames tables in Postgres.
 
 ## Other Resources
 

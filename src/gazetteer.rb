@@ -2,8 +2,9 @@
 
 require 'rubygems'
 require 'thor'
-require 'pg'
 require 'json'
+require 'pg'
+require 'sequel'
 
 class Gazetteer < Thor
 
@@ -53,22 +54,22 @@ class Gazetteer < Thor
     puts "Table \"geoname\" created."
 
     puts "Creating \"alternatenames\" table..."
-    `psql -d #{options[:dbname]} -f "#{File.join(SHARE_PATH, 'create_alternate_name.sql')}"`
+    `PGOPTIONS='--client-min-messages=warning' psql -d #{options[:dbname]} -f "#{File.join(SHARE_PATH, 'create_alternate_name.sql')}"`
     puts "Table \"alternatenames\" created."
 
     puts "Creating \"countryinfo\" table..."
-    `psql -d #{options[:dbname]} -f "#{File.join(SHARE_PATH, 'create_country_info.sql')}"`
+    `PGOPTIONS='--client-min-messages=warning' psql -d #{options[:dbname]} -f "#{File.join(SHARE_PATH, 'create_country_info.sql')}"`
     puts "Table \"countryinfo\" created."
 
     puts "Setting primary keys..."
-    `psql -d #{options[:dbname]} -f "#{File.join(SHARE_PATH, 'create_primary_keys.sql')}"`
+    `PGOPTIONS='--client-min-messages=warning' psql -d #{options[:dbname]} -f "#{File.join(SHARE_PATH, 'create_primary_keys.sql')}"`
     puts "Primary keys created."
 
     puts "Setting foreign keys..."
     `psql -d #{options[:dbname]} -f "#{File.join(SHARE_PATH, 'create_foreign_keys.sql')}"`
     puts "Foreign keys created."
 
-    puts "GeoNames tables populated."
+    puts "GeoNames tables created."
   end
 
   # todo: use sequel to

@@ -1,0 +1,16 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    json (1.7.7)
+    pg (0.15.1)
+    sequel (3.46.0)
+    thor (0.18.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  json
+  pg
+  sequel
+  thor
