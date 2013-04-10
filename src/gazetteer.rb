@@ -7,10 +7,13 @@ require 'json'
 
 class Gazetteer < Thor
 
+  SHARE_PATH = File.join(File.dirname(__FILE__), "..", "share")
+  DATA_PATH = File.join(File.dirname(__FILE__), "..", "data")
+
   desc "code", "Search for the correct 2-letter ISO country code, by search term."
   method_option :search, :aliases => "-s", :desc => "Phrase or name to search for."
   def code
-    codes = File.join(File.dirname(__FILE__) , "..", "share", "iso_3166-1.json")
+    codes = File.join(SHARE_PATH, "iso_3166-1.json")
     data = JSON.parse(File.read(codes))
     match = data.select do |item|
       item["name"] =~ Regexp.new(options[:search], Regexp::IGNORECASE)
@@ -23,14 +26,16 @@ class Gazetteer < Thor
   desc "download", "Download the GeoNames data for a specific country."
   method_option :country, :aliases => "-c", :desc => "Download a specific country's data"
   def download
+    path = File.join(DATA_PATH, "data")
     country = options[:country]
     if country
-      puts "Downloading #{options[:country]}..."
-      `wget http://download.geonames.org/export/dump/#{options[:country]}.zip`
+      puts "Downloading #{country}..."
+      `curl -s -o #{path}/#{country}.zip http://download.geonames.org/export/dump/#{country}.zip`
       puts "Unzipping..."
-      `unzip #{options[:country]}`
-      `rm #{options[:country]}.zip`
-      `rm readme.txt`
+      `unzip #{path}/#{country}.zip -d #{path}`
+      puts "Data downloaded for #{country_lookup(country)}."
+      `rm #{path}/#{country}.zip`
+      `rm #{path}/readme.txt`
     else
       puts "No country specified... Use '-c FIPSCODE' to download data for a specific country."
     end
@@ -44,26 +49,29 @@ class Gazetteer < Thor
     countryinfo = options[:countryinfo]
 
     puts "Creating \"geoname\" table..."
-    `psql -d #{options[:dbname]} -f "#{File.join(File.dirname(__FILE__), '..', 'share', 'create_geoname.sql')}"`
+    `psql -d #{options[:dbname]} -f "#{File.join(SHARE_PATH, 'create_geoname.sql')}"`
     puts "Table \"geoname\" created."
 
     puts "Creating \"alternatenames\" table..."
-    `psql -d #{options[:dbname]} -f "#{File.join(File.dirname(__FILE__), '..', 'share', 'create_alternate_name.sql')}"`
+    `psql -d #{options[:dbname]} -f "#{File.join(SHARE_PATH, 'create_alternate_name.sql')}"`
     puts "Table \"alternatenames\" created."
-    
+
     puts "Creating \"countryinfo\" table..."
-    `psql -d #{options[:dbname]} -f "#{File.join(File.dirname(__FILE__), '..', 'share', 'create_country_info.sql')}"`
+    `psql -d #{options[:dbname]} -f "#{File.join(SHARE_PATH, 'create_country_info.sql')}"`
     puts "Table \"countryinfo\" created."
 
     puts "Setting primary keys..."
-    `psql -d #{options[:dbname]} -f "#{File.join(File.dirname(__FILE__), '..', 'share', 'create_primary_keys.sql')}"`
+    `psql -d #{options[:dbname]} -f "#{File.join(SHARE_PATH, 'create_primary_keys.sql')}"`
     puts "Primary keys created."
 
     puts "Setting foreign keys..."
-    `psql -d #{options[:dbname]} -f "#{File.join(File.dirname(__FILE__), '..', 'share', 'create_foreign_keys.sql')}"`
+    `psql -d #{options[:dbname]} -f "#{File.join(SHARE_PATH, 'create_foreign_keys.sql')}"`
     puts "Foreign keys created."
+
+    puts "GeoNames tables populated."
   end
 
+  # todo: use sequel to
   desc "altnames", "Import alternate names data table."
   method_option :dbname, :aliases => "-d", :desc => "Database name", :required => true
   method_option :file, :aliases => "-f", :desc => "Alternate names file, full path", :required => true
@@ -81,7 +89,7 @@ class Gazetteer < Thor
     # conn.exec('COPY geoname ')
     # `psql -d #{options[:dbname]} -c "copy geoname (geonameid,name,asciiname,alternatenames,latitude,longitude,fclass,fcode,country,cc2,admin1,admin2,admin3,admin4,population,elevation,gtopo30,timezone,moddate) from '#{options[:file]}' null as ''"`
   end
-  
+
   # UNFINISHED
   desc "query", "Poll your local GeoNames database."
   method_option :dbname, :aliases => "-d", :desc => "Database name", :required => true
@@ -95,7 +103,7 @@ class Gazetteer < Thor
       end
     end
   end
-  
+
   desc "country", "Extract a chunk of a GeoNames database by country and insert into a new table."
   method_option :dbname, :aliases => "-d", :desc => "Database name", :required => true
   method_option :user, :aliases => "-u", :desc => "Database user name", :required => true
@@ -105,7 +113,7 @@ class Gazetteer < Thor
   def country
     `psql -U #{options[:user]} -d #{options[:dbname]} -c "CREATE TABLE #{options[:dst]} AS SELECT * FROM #{options[:src]} WHERE country = '#{options[:country]}'"`
   end
-  
+
   desc "list", "List countries available in a GeoNames database."
   method_option :dbname, :aliases => "-d", :desc => "Database name", :required => true
   method_option :user, :aliases => "-u", :desc => "Database user name", :required => true
@@ -115,8 +123,17 @@ class Gazetteer < Thor
   end
 
   no_tasks do
+
     def create_alternate_name()
       sql = File.read(File.join(File.dirname(__FILE__), "..", "share", "create_alternate_name.sql"))
+    end
+
+    def country_lookup(code)
+      codes = File.join(File.dirname(__FILE__) , "..", "share", "iso_3166-1.json")
+      data = JSON.parse(File.read(codes))
+      match = data.select do |item|
+        item["code"] == code
+      end.first["name"]
     end
   end
 
