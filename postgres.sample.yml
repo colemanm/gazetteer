@@ -4,7 +4,7 @@ default:
 	password: postgres
 	port: 5432
 
-# Define custom server connection parameters
+# Define custom connection parameters for Postgres servers
 
 connection_name:
 	host: server.com

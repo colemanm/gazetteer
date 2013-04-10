@@ -27,15 +27,18 @@ Download only metadata tables with:
 
 ```shell
 make metadata
-```
-
-### Cities
 
 If you only want names data for cities and places (for map labeling purposes), there are maintained subsets of placenames for cities divided by population: cities with population over 1000, 5000, and 15000.
 
 ```shell
 make cities
 ```
+
+To clean up the `data/` cache after you've run imports, run `make clean`.
+
+## Usage
+
+
 
 ## Other Resources
 

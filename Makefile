@@ -33,7 +33,6 @@ cities: \
 	data/cities1000.txt
 
 # Zips
-
 data/allcountries.zip:
 	curl -o data/allcountries.zip "http://download.geonames.org/export/dump/allCountries.zip"
 
@@ -52,7 +51,6 @@ data/alternatenames.txt: data/alternatenames.zip
 	rm data/alternatenames.zip
 
 # Metadata
-
 metadata: \
 	data/countryinfo.txt \
 	data/featurecodes.txt \
