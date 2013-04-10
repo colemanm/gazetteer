@@ -3,6 +3,7 @@
 require 'rubygems'
 require 'thor'
 require 'json'
+require 'yaml'
 require 'pg'
 require 'sequel'
 
@@ -14,6 +15,7 @@ class Gazetteer < Thor
   desc "code", "Search for the correct 2-letter ISO country code, by search term."
   method_option :search, :aliases => "-s", :desc => "Phrase or name to search for."
   def code
+    puts "#{connect("magellan")}"
     codes = File.join(SHARE_PATH, "iso_3166-1.json")
     data = JSON.parse(File.read(codes))
     match = data.select do |item|
@@ -124,6 +126,16 @@ class Gazetteer < Thor
   end
 
   no_tasks do
+
+    # Establish a database connection. Reads params from ~/.postgres config in home directory
+    def database(server, db)
+      options = YAML.load(File.read(File.expand_path("~/.postgres")))[server]
+      @db ||= Sequel.connect(adapter: "postgres",
+                          host: options["host"],
+                          database: db,
+                          user: options["user"],
+                          password: options["password"])
+    end
 
     def create_alternate_name()
       sql = File.read(File.join(File.dirname(__FILE__), "..", "share", "create_alternate_name.sql"))
