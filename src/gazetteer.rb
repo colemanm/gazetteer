@@ -7,16 +7,16 @@ require 'json'
 
 class Gazetteer < Thor
 
-  desc "search", "Search for the correct 2-letter ISO country code, by search term."
+  desc "code", "Search for the correct 2-letter ISO country code, by search term."
   method_option :search, :aliases => "-s", :desc => "Phrase or name to search for."
-  def search
+  def code
     codes = File.join(File.dirname(__FILE__) , "..", "share", "iso_3166-1.json")
     data = JSON.parse(File.read(codes))
     match = data.select do |item|
       item["name"] =~ Regexp.new(options[:search], Regexp::IGNORECASE)
     end
     match.each do |item|
-      puts "#{item['name']}: #{item['code']}"
+      puts "#{item['name']}: \033[1m#{item['code']}\033[0m"
     end
   end
 
@@ -112,6 +112,12 @@ class Gazetteer < Thor
   method_option :table, :aliases => "-t", :desc => "Table containing GeoNames records", :required => true
   def list
     `psql -U #{options[:user]} -d #{options[:dbname]} -c "SELECT DISTINCT country FROM #{options[:table]} ORDER BY country ASC"`
+  end
+
+  no_tasks do
+    def create_alternate_name()
+      sql = File.read(File.join(File.dirname(__FILE__), "..", "share", "create_alternate_name.sql"))
+    end
   end
 
 end
