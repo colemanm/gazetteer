@@ -9,7 +9,7 @@ copy alternatename (
 	isshortname,
 	iscolloquial,
 	ishistoric
-) from 'alternateNames.txt' null as '';
+) from '../data/alternateNames.txt' null as '';
 
 ALTER TABLE ONLY alternatename
 	ADD CONSTRAINT pk_alternatenameid PRIMARY KEY (alternatenameid);

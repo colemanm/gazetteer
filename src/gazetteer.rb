@@ -29,7 +29,7 @@ class Gazetteer < Thor
   desc "download", "Download the GeoNames data for a specific country."
   method_option :country, :aliases => "-c", :desc => "Download a specific country's data"
   def download
-    path = File.join(DATA_PATH, "data")
+    path = DATA_PATH
     country = options[:country]
     if country
       puts "Downloading #{country}..."
@@ -77,9 +77,23 @@ class Gazetteer < Thor
   # todo: use sequel to
   desc "altnames", "Import alternate names data table."
   method_option :dbname, :aliases => "-d", :desc => "Database name", :required => true
-  method_option :file, :aliases => "-f", :desc => "Alternate names file, full path", :required => true
+  method_option :connection, :aliases => "-c", :desc => "Postgres connection name"
   def altnames
-    `psql -d #{options[:dbname]} -c "copy alternatename (alternatenameid,geonameid,isolanguage,alternatename,ispreferredname,isshortname,iscolloquial,ishistoric) from '#{options[:file]}' null as ''"`
+    sql = File.read(File.join(SHARE_PATH, "populate_alternate_name.sql"))
+    db = database(options[:connection], options[:dbname])
+    # db.run(sql)
+    puts populate_alternate_names_sql
+    # `psql -d #{options[:dbname]} -c "copy alternatename (alternatenameid,geonameid,isolanguage,alternatename,ispreferredname,isshortname,iscolloquial,ishistoric) from '#{options[:file]}' null as ''"`
+  end
+
+  desc "metadata", "Populate metadata tables."
+  method_option :dbname, :aliases => "-d", :desc => "Database name", :required => true
+  method_option :connection, :aliases => "-c", :desc => "Postgres connection name"
+  def metadata
+    sql = File.read(File.join(SHARE_PATH, "populate_country_info.sql"))
+    db = database(options[:connection], options[:dbname])
+    puts populate_country_info_sql
+
   end
 
   desc "import", "Import GeoNames data."
@@ -148,6 +162,116 @@ class Gazetteer < Thor
         item["code"] == code
       end.first["name"]
     end
+
+    def populate_alternate_names_sql
+      <<-SQL
+        copy alternatename (
+          alternatenameid,
+          geonameid,
+          isolanguage,
+          alternatename,
+          ispreferredname,
+          isshortname,
+          iscolloquial,
+          ishistoric
+        ) from '#{File.join(DATA_PATH, "alternateNames.txt")}' null as '';
+
+        ALTER TABLE ONLY alternatename
+          ADD CONSTRAINT pk_alternatenameid PRIMARY KEY (alternatenameid);
+      SQL
+    end
+
+    def populate_country_info_sql
+      <<-SQL
+        copy countryinfo (
+          iso_alpha2,
+          iso_alpha3,
+          iso_numeric,
+          fips_code,
+          name,
+          capital,
+          areainsqkm,
+          population,
+          continent,
+          tld,
+          currencycode,
+          currencyname,
+          phone,
+          postalcode,
+          postalcoderegex,
+          languages,
+          geonameid,
+          neighbors,
+          equivfipscode
+        ) from '#{File.join(DATA_PATH, "countryinfo.txt")}' null as '';
+
+        ALTER TABLE ONLY countryinfo
+          ADD CONSTRAINT pk_iso_alpha2 PRIMARY KEY (iso_alpha2);
+      SQL
+    end
+
+    def populate_feature_codes_sql
+      <<-SQL
+        copy featurecodes (
+          fcode,
+          class,
+          code,
+          label,
+          description
+        ) from '#{File.join(SHARE_PATH, "featurecodes.txt")}' null as '';
+
+        ALTER TABLE ONLY featurecodes
+          ADD CONSTRAINT pk_fcode PRIMARY KEY (fcode);
+      SQL
+    end
+
+    def populate_language_codes_sql
+      <<-SQL
+        copy languagecodes (
+          iso_639_3,
+          iso_639_2,
+          iso_639_1,
+          name
+        ) from '#{File.join(SHARE_PATH, "languagecodes.txt")}' null as '';
+
+        ALTER TABLE ONLY languagecodes
+          ADD CONSTRAINT pk_iso_639_3 PRIMARY KEY (iso_639_3);
+      SQL
+    end
+
+    def populate_admin1_sql
+      <<-SQL
+        copy admin1codes (
+          code,
+          countrycode,
+          admin1_code,
+          name,
+          alt_name_english,
+          geonameid
+        ) from '#{File.join(SHARE_PATH, "admin1codes.txt")}' null as '';
+
+        ALTER TABLE ONLY admin1codes
+          ADD CONSTRAINT pk_geonameid PRIMARY KEY (geonameid);
+      SQL
+    end
+
+    def populate_admin2_sql
+      <<-SQL
+        copy admin2codes (
+          code,
+          countrycode,
+          admin1_code,
+          admin2_code,
+          name,
+          alt_name_english,
+          geonameid
+        ) from '#{File.join(SHARE_PATH, "admin2codes.txt")}' null as '';
+
+        ALTER TABLE ONLY admin2codes
+          ADD CONSTRAINT pk_geonameid PRIMARY KEY (geonameid);
+      SQL
+    end
+
   end
 
 end
