@@ -1,6 +1,4 @@
--- Create admin2codes table, for administrative level 2 place names
-
-create table "admin2codes" (
+create table admin2codes (
   code varchar(20),
   countrycode char(2),
   admin1_code varchar(10),
@@ -10,4 +8,4 @@ create table "admin2codes" (
 );
 
 ALTER TABLE ONLY admin2codes
-  ADD CONSTRAINT pk_geonameid PRIMARY KEY (geonameid);
+  ADD CONSTRAINT pk_admin2id PRIMARY KEY (geonameid);

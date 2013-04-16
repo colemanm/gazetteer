@@ -1,6 +1,4 @@
--- Create countryinfo table, for reference country data
-
-create table "countryinfo" (
+create table countryinfo (
   iso_alpha2 char(2),
   iso_alpha3 char(3),
   iso_numeric integer,

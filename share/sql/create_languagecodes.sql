@@ -1,6 +1,4 @@
--- Create languagecodes table, for ISO language codes
-
-create table "countryinfo" (
+create table languagecodes (
   iso_639_3 varchar(3),
   iso_639_2 varchar(3),
   iso_639_1 varchar(2),
@@ -8,5 +6,4 @@ create table "countryinfo" (
 );
 
 ALTER TABLE ONLY languagecodes
-  ADD CONSTRAINT pk_iso_639_3 PRIMARY KEY (iso_639_3);
-  
+  ADD CONSTRAINT pk_languageid PRIMARY KEY (iso_639_3);

@@ -1,5 +1,3 @@
--- Create alternate names table
-
 create table alternatename (
   alternatenameId int,
   geonameid int,

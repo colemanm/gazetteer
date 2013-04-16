@@ -1,8 +1,8 @@
--- Create feature codes reference table
-
 create table featurecodes (
-  fcode varchar(10),
-  name varchar(100),
+  code varchar(1),
+  class varchar(10),
+  fcode varchar (10),
+  label varchar(100),
   description varchar(200)
  );
 
