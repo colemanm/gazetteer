@@ -21,3 +21,6 @@ create table geoname (
 	timezone varchar(40),
 	moddate date
  );
+
+ALTER TABLE ONLY geoname
+	ADD CONSTRAINT pk_geonameid PRIMARY KEY (geonameid);

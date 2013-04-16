@@ -5,15 +5,15 @@ A	ADM4	A.ADM4	fourth-order administrative division	a subdivision of a third-orde
 A	ADM5	A.ADM5	fifth-order administrative division	a subdivision of a fourth-order administrative division
 A	ADMD	A.ADMD	administrative division	an administrative division of a country, undifferentiated as to administrative level
 A	LTER	A.LTER	leased area	a tract of land leased to another country, usually for military installations
-A	PCL	A.PCL	political entity	
-A	PCLD	A.PCLD	dependent political entity	
-A	PCLF	A.PCLF	freely associated state	
-A	PCLI	A.PCLI	independent political entity	
-A	PCLIX	A.PCLIX	section of independent political entity	
-A	PCLS	A.PCLS	semi-independent political entity	
+A	PCL	A.PCL	political entity
+A	PCLD	A.PCLD	dependent political entity
+A	PCLF	A.PCLF	freely associated state
+A	PCLI	A.PCLI	independent political entity
+A	PCLIX	A.PCLIX	section of independent political entity
+A	PCLS	A.PCLS	semi-independent political entity
 A	PRSH	A.PRSH	parish	an ecclesiastical district
-A	TERR	A.TERR	territory	
-A	ZN	A.ZN	zone	
+A	TERR	A.TERR	territory
+A	ZN	A.ZN	zone
 A	ZNB	A.ZNB	buffer zone	a zone recognized as a buffer between two nations in which military presence is minimal or absent
 H	AIRS	H.AIRS	seaplane landing area	a place on a waterbody where floatplanes land and take off
 H	ANCH	H.ANCH	anchorage	an area where vessels may anchor
@@ -22,7 +22,7 @@ H	BAYS	H.BAYS	bays	coastal indentations between two capes or headlands, larger t
 H	BGHT	H.BGHT	bight(s)	an open body of water forming a slight recession in a coastline
 H	BNK	H.BNK	bank(s)	an elevation, typically located on a shelf, over which the depth of water is relatively shallow but sufficient for most surface navigation
 H	BNKR	H.BNKR	stream bank	a sloping margin of a stream channel which normally confines the stream to its channel on land
-H	BNKX	H.BNKX	section of bank	
+H	BNKX	H.BNKX	section of bank
 H	BOG	H.BOG	bog(s)	a wetland characterized by peat forming sphagnum moss, sedge, and other acid-water plants
 H	CAPG	H.CAPG	icecap	a dome-shaped mass of glacial ice covering an area of mountain summits or other high lands; smaller than an ice sheet
 H	CHN	H.CHN	channel	the deepest part of a stream, bay, lagoon, or strait, through which the main current flows
@@ -36,9 +36,9 @@ H	CNLB	H.CNLB	canal bend	a conspicuously curved or bent section of a canal
 H	CNLD	H.CNLD	drainage canal	an artificial waterway carrying water away from a wetland or from drainage ditches
 H	CNLI	H.CNLI	irrigation canal	a canal which serves as a main conduit for irrigation water
 H	CNLN	H.CNLN	navigation canal(s)	a watercourse constructed for navigation of vessels
-H	CNLQ	H.CNLQ	abandoned canal	
+H	CNLQ	H.CNLQ	abandoned canal
 H	CNLSB	H.CNLSB	underground irrigation canal(s)	a gently inclined underground tunnel bringing water for irrigation from aquifers
-H	CNLX	H.CNLX	section of canal	
+H	CNLX	H.CNLX	section of canal
 H	COVE	H.COVE	cove(s)	a small coastal indentation, smaller than a bay
 H	CRKT	H.CRKT	tidal creek(s)	a meandering channel in a coastal wetland subject to bi-directional tidal currents
 H	CRNT	H.CRNT	current	a horizontal flow of water in a given direction with uniform velocity
@@ -56,34 +56,34 @@ H	FISH	H.FISH	fishing area	a fishing ground, bank or area where fishermen go to 
 H	FJD	H.FJD	fjord	a long, narrow, steep-walled, deep-water arm of the sea at high latitudes, usually along mountainous coasts
 H	FJDS	H.FJDS	fjords	long, narrow, steep-walled, deep-water arms of the sea at high latitudes, usually along mountainous coasts
 H	FLLS	H.FLLS	waterfall(s)	a perpendicular or very steep descent of the water of a stream
-H	FLLSX	H.FLLSX	section of waterfall(s)	
+H	FLLSX	H.FLLSX	section of waterfall(s)
 H	FLTM	H.FLTM	mud flat(s)	a relatively level area of mud either between high and low tide lines, or subject to flooding
 H	FLTT	H.FLTT	tidal flat(s)	a large flat area of mud or sand attached to the shore and alternately covered and uncovered by the tide
 H	GLCR	H.GLCR	glacier(s)	a mass of ice, usually at high latitudes or high elevations, with sufficient thickness to flow away from the source area in lobes, tongues, or masses
 H	GULF	H.GULF	gulf	a large recess in the coastline, larger than a bay
 H	GYSR	H.GYSR	geyser	a type of hot spring with intermittent eruptions of jets of hot water and steam
 H	HBR	H.HBR	harbor(s)	a haven or space of deep water so sheltered by the adjacent land as to afford a safe anchorage for ships
-H	HBRX	H.HBRX	section of harbor	
+H	HBRX	H.HBRX	section of harbor
 H	INLT	H.INLT	inlet	a narrow waterway extending into the land, or connecting a bay or lagoon with a larger body of water
 H	INLTQ	H.INLTQ	former inlet	an inlet which has been filled in, or blocked by deposits
 H	LBED	H.LBED	lake bed(s)	a dried up or drained area of a former lake
 H	LGN	H.LGN	lagoon	a shallow coastal waterbody, completely or partly separated from a larger body of water by a barrier island, coral reef or other depositional feature
 H	LGNS	H.LGNS	lagoons	shallow coastal waterbodies, completely or partly separated from a larger body of water by a barrier island, coral reef or other depositional feature
-H	LGNX	H.LGNX	section of lagoon	
+H	LGNX	H.LGNX	section of lagoon
 H	LK	H.LK	lake	a large inland body of standing water
 H	LKC	H.LKC	crater lake	a lake in a crater or caldera
-H	LKI	H.LKI	intermittent lake	
+H	LKI	H.LKI	intermittent lake
 H	LKN	H.LKN	salt lake	an inland body of salt water with no outlet
-H	LKNI	H.LKNI	intermittent salt lake	
+H	LKNI	H.LKNI	intermittent salt lake
 H	LKO	H.LKO	oxbow lake	a crescent-shaped lake commonly found adjacent to meandering streams
-H	LKOI	H.LKOI	intermittent oxbow lake	
+H	LKOI	H.LKOI	intermittent oxbow lake
 H	LKS	H.LKS	lakes	large inland bodies of standing water
 H	LKSB	H.LKSB	underground lake	a standing body of water in a cave
 H	LKSC	H.LKSC	crater lakes	lakes in a crater or caldera
-H	LKSI	H.LKSI	intermittent lakes	
+H	LKSI	H.LKSI	intermittent lakes
 H	LKSN	H.LKSN	salt lakes	inland bodies of salt water with no outlet
-H	LKSNI	H.LKSNI	intermittent salt lakes	
-H	LKX	H.LKX	section of lake	
+H	LKSNI	H.LKSNI	intermittent salt lakes
+H	LKX	H.LKX	section of lake
 H	MFGN	H.MFGN	salt evaporation ponds	diked salt ponds used in the production of solar evaporated salt
 H	MGV	H.MGV	mangrove swamp	a tropical tidal mud flat characterized by mangrove vegetation
 H	MOOR	H.MOOR	moor(s)	an area of open ground overlaid with wet peaty soils
@@ -93,24 +93,24 @@ H	NRWS	H.NRWS	narrows	a navigable narrow part of a bay, strait, river, etc.
 H	OCN	H.OCN	ocean	one of the major divisions of the vast expanse of salt water covering part of the earth
 H	OVF	H.OVF	overfalls	an area of breaking waves caused by the meeting of currents or by waves moving against the current
 H	PND	H.PND	pond	a small standing waterbody
-H	PNDI	H.PNDI	intermittent pond	
+H	PNDI	H.PNDI	intermittent pond
 H	PNDN	H.PNDN	salt pond	a small standing body of salt water often in a marsh or swamp, usually along a seacoast
-H	PNDNI	H.PNDNI	intermittent salt pond(s)	
+H	PNDNI	H.PNDNI	intermittent salt pond(s)
 H	PNDS	H.PNDS	ponds	small standing waterbodies
 H	PNDSF	H.PNDSF	fishponds	ponds or enclosures in which fish are kept or raised
-H	PNDSI	H.PNDSI	intermittent ponds	
+H	PNDSI	H.PNDSI	intermittent ponds
 H	PNDSN	H.PNDSN	salt ponds	small standing bodies of salt water often in a marsh or swamp, usually along a seacoast
 H	POOL	H.POOL	pool(s)	a small and comparatively still, deep part of a larger body of water such as a stream or harbor; or a small body of standing water
-H	POOLI	H.POOLI	intermittent pool	
+H	POOLI	H.POOLI	intermittent pool
 H	RCH	H.RCH	reach	a straight section of a navigable stream or channel between two bends
 H	RDGG	H.RDGG	icecap ridge	a linear elevation on an icecap
 H	RDST	H.RDST	roadstead	an open anchorage affording less protection than a harbor
 H	RF	H.RF	reef(s)	a surface-navigation hazard composed of consolidated material
 H	RFC	H.RFC	coral reef(s)	a surface-navigation hazard composed of coral
-H	RFX	H.RFX	section of reef	
+H	RFX	H.RFX	section of reef
 H	RPDS	H.RPDS	rapids	a turbulent section of a stream associated with a steep, irregular stream bed
 H	RSV	H.RSV	reservoir(s)	an artificial pond or lake
-H	RSVI	H.RSVI	intermittent reservoir	
+H	RSVI	H.RSVI	intermittent reservoir
 H	RSVT	H.RSVT	water tank	a contained pool or tank of water at, below, or above ground level
 H	RVN	H.RVN	ravine(s)	a small, narrow, deep, steep-sided stream channel, smaller than a gorge
 H	SBKH	H.SBKH	sabkha(s)	a salt flat or salt encrusted plain subject to periodic inundation from flooding or high tides
@@ -127,13 +127,13 @@ H	STMB	H.STMB	stream bend	a conspicuously curved or bent segment of a stream
 H	STMC	H.STMC	canalized stream	a stream that has been substantially ditched, diked, or straightened
 H	STMD	H.STMD	distributary(-ies)	a branch which flows away from the main stream, as in a delta or irrigation canal
 H	STMH	H.STMH	headwaters	the source and upper part of a stream, including the upper drainage basin
-H	STMI	H.STMI	intermittent stream	
-H	STMIX	H.STMIX	section of intermittent stream	
+H	STMI	H.STMI	intermittent stream
+H	STMIX	H.STMIX	section of intermittent stream
 H	STMM	H.STMM	stream mouth(s)	a place where a stream discharges into a lagoon, lake, or the sea
 H	STMQ	H.STMQ	abandoned watercourse	a former stream or distributary no longer carrying flowing water, but still evident due to lakes, wetland, topographic or vegetation patterns
 H	STMS	H.STMS	streams	bodies of running water moving to a lower level in a channel on land
 H	STMSB	H.STMSB	lost river	a surface stream that disappears into an underground channel, or dries up in an arid area
-H	STMX	H.STMX	section of stream	
+H	STMX	H.STMX	section of stream
 H	STRT	H.STRT	strait	a relatively narrow waterway, usually narrower and less extensive than a sound, connecting two larger bodies of water
 H	SWMP	H.SWMP	swamp	a wetland dominated by tree vegetation
 H	SYSI	H.SYSI	irrigation system	a network of ditches and one or more of the following elements: water supply, reservoir, canal, pump, well, drain, etc.
@@ -143,13 +143,13 @@ H	WADB	H.WADB	wadi bend	a conspicuously curved or bent segment of a wadi
 H	WADJ	H.WADJ	wadi junction	a place where two or more wadies join
 H	WADM	H.WADM	wadi mouth	the lower terminus of a wadi where it widens into an adjoining floodplain, depression, or waterbody
 H	WADS	H.WADS	wadies	valleys or ravines, bounded by relatively steep banks, which in the rainy season become watercourses; found primarily in North Africa and the Middle East
-H	WADX	H.WADX	section of wadi	
+H	WADX	H.WADX	section of wadi
 H	WHRL	H.WHRL	whirlpool	a turbulent, rotating movement of water in a stream
 H	WLL	H.WLL	well	a cylindrical hole, pit, or tunnel drilled or dug down to a depth from which water, oil, or gas can be pumped or brought to the surface
-H	WLLQ	H.WLLQ	abandoned well	
+H	WLLQ	H.WLLQ	abandoned well
 H	WLLS	H.WLLS	wells	cylindrical holes, pits, or tunnels drilled or dug down to a depth from which water, oil, or gas can be pumped or brought to the surface
 H	WTLD	H.WTLD	wetland	an area subject to inundation, usually characterized by bog, marsh, or swamp vegetation
-H	WTLDI	H.WTLDI	intermittent wetland	
+H	WTLDI	H.WTLDI	intermittent wetland
 H	WTRC	H.WTRC	watercourse	a natural, well-defined channel produced by flowing water, or an artificial channel designed to carry flowing water
 H	WTRH	H.WTRH	waterhole(s)	a natural hole, hollow, or small depression that contains water, used by man and animals, especially in arid areas
 L	AGRC	L.AGRC	agricultural colony	a tract of land set aside for agricultural settlement
@@ -201,19 +201,19 @@ L	SNOW	L.SNOW	snowfield	an area of permanent snow and ice forming the accumulati
 L	TRB	L.TRB	tribal area	a tract of land used by nomadic or other tribes
 P	PPL	P.PPL	populated place	a city, town, village, or other agglomeration of buildings where people live and work
 P	PPLA	P.PPLA	seat of a first-order administrative division	seat of a first-order administrative division (PPLC takes precedence over PPLA)
-P	PPLA2	P.PPLA2	seat of a second-order administrative division	
-P	PPLA3	P.PPLA3	seat of a third-order administrative division	
-P	PPLA4	P.PPLA4	seat of a fourth-order administrative division	
-P	PPLC	P.PPLC	capital of a political entity	
+P	PPLA2	P.PPLA2	seat of a second-order administrative division
+P	PPLA3	P.PPLA3	seat of a third-order administrative division
+P	PPLA4	P.PPLA4	seat of a fourth-order administrative division
+P	PPLC	P.PPLC	capital of a political entity
 P	PPLF	P.PPLF	farm village	a populated place where the population is largely engaged in agricultural activities
-P	PPLG	P.PPLG	seat of government of a political entity	
+P	PPLG	P.PPLG	seat of government of a political entity
 P	PPLL	P.PPLL	populated locality	an area similar to a locality but with a small group of dwellings or other buildings
-P	PPLQ	P.PPLQ	abandoned populated place	
+P	PPLQ	P.PPLQ	abandoned populated place
 P	PPLR	P.PPLR	religious populated place	a populated place whose population is largely engaged in religious occupations
 P	PPLS	P.PPLS	populated places	cities, towns, villages, or other agglomerations of buildings where people live and work
 P	PPLW	P.PPLW	destroyed populated place	a village, town or city destroyed by a natural disaster, or by war
-P	PPLX	P.PPLX	section of populated place	
-P	STLMT	P.STLMT	israeli settlement	
+P	PPLX	P.PPLX	section of populated place
+P	STLMT	P.STLMT	israeli settlement
 R	CSWY	R.CSWY	causeway	a raised roadway across wet ground or shallow water
 R	OILP	R.OILP	oil pipeline	a pipeline used for transporting oil
 R	PRMN	R.PRMN	promenade	a place for public walking, usually along a beach front
@@ -225,7 +225,7 @@ R	RDCUT	R.RDCUT	road cut	an excavation cut through a hill or ridge for a road
 R	RDJCT	R.RDJCT	road junction	a place where two or more roads join
 R	RJCT	R.RJCT	railroad junction	a place where two or more railroad tracks join
 R	RR	R.RR	railroad	a permanent twin steel-rail track on which freight and passenger cars move long distances
-R	RRQ	R.RRQ	abandoned railroad	
+R	RRQ	R.RRQ	abandoned railroad
 R	RTE	R.RTE	caravan route	the route taken by caravans
 R	RYD	R.RYD	railroad yard	a system of tracks used for the making up of trains, and switching and storing freight cars
 R	ST	R.ST	street	a paved urban thoroughfare
@@ -242,7 +242,7 @@ S	AIRB	S.AIRB	airbase	an area used to store supplies, provide barracks for air f
 S	AIRF	S.AIRF	airfield	a place on land where aircraft land and take off; no facilities provided for the commercial handling of passengers and cargo
 S	AIRH	S.AIRH	heliport	a place where helicopters land and take off
 S	AIRP	S.AIRP	airport	a place where aircraft regularly land and take off, with runways, navigational aids, and major facilities for the commercial handling of passengers and cargo
-S	AIRQ	S.AIRQ	abandoned airfield	
+S	AIRQ	S.AIRQ	abandoned airfield
 S	AMTH	S.AMTH	amphitheater	an oval or circular structure with rising tiers of seats about a stage or open space
 S	ANS	S.ANS	ancient site	a place where archeological remains, old structures, or cultural artifacts are located
 S	AQC	S.AQC	aquaculture facility	facility or area for the cultivation of aquatic animals and plants, especially fish, shellfish, and seaweed, in natural or controlled marine or freshwater environments; underwater agriculture
@@ -250,8 +250,8 @@ S	ARCH	S.ARCH	arch	a natural or man-made structure in the form of an arch
 S	ASTR	S.ASTR	astronomical station	a point on the earth whose position has been determined by observations of celestial bodies
 S	ASYL	S.ASYL	asylum	a facility where the insane are cared for and protected
 S	ATHF	S.ATHF	athletic field	a tract of land used for playing team sports, and athletic track and field events
-S	ATM	S.ATM	automatic teller machine	An unattended electronic machine in a public place, connected to a data system and related equipment and activated by a bank customer to obtain cash withdrawals and other banking services. 
-S	BANK	S.BANK	bank	A business establishment in which money is kept for saving or commercial purposes or is invested, supplied for loans, or exchanged. 
+S	ATM	S.ATM	automatic teller machine	An unattended electronic machine in a public place, connected to a data system and related equipment and activated by a bank customer to obtain cash withdrawals and other banking services.
+S	BANK	S.BANK	bank	A business establishment in which money is kept for saving or commercial purposes or is invested, supplied for loans, or exchanged.
 S	BCN	S.BCN	beacon	a fixed artificial navigation mark
 S	BDG	S.BDG	bridge	a structure erected across an obstacle such as a stream, road, etc., in order to carry roads, railroads, and pedestrians across
 S	BDGQ	S.BDGQ	ruined bridge	a destroyed or decayed bridge which is no longer functional
@@ -263,7 +263,7 @@ S	BRKW	S.BRKW	breakwater	a structure erected to break the force of waves at the 
 S	BSTN	S.BSTN	baling station	a facility for baling agricultural products
 S	BTYD	S.BTYD	boatyard	a waterside facility for servicing, repairing, and building small vessels
 S	BUR	S.BUR	burial cave(s)	a cave used for human burials
-S	BUSTN	S.BUSTN	bus station	a facility comprising ticket office, platforms, etc. for loading and unloading passengers 
+S	BUSTN	S.BUSTN	bus station	a facility comprising ticket office, platforms, etc. for loading and unloading passengers
 S	BUSTP	S.BUSTP	bus stop	a place lacking station facilities
 S	CARN	S.CARN	cairn	a heap of stones erected as a landmark or for other purposes
 S	CAVE	S.CAVE	cave(s)	an underground passageway or chamber, or cavity on the side of a cliff
@@ -273,7 +273,7 @@ S	CMPL	S.CMPL	logging camp	a camp used by loggers
 S	CMPLA	S.CMPLA	labor camp	a camp used by migrant or temporary laborers
 S	CMPMN	S.CMPMN	mining camp	a camp used by miners
 S	CMPO	S.CMPO	oil camp	a camp used by oilfield workers
-S	CMPQ	S.CMPQ	abandoned camp	
+S	CMPQ	S.CMPQ	abandoned camp
 S	CMPRF	S.CMPRF	refugee camp	a camp used by refugees
 S	CMTY	S.CMTY	cemetery	a burial place or ground
 S	COMC	S.COMC	communication center	a facility, including buildings, antennae, towers and electronic equipment for receiving and transmitting information
@@ -303,11 +303,11 @@ S	ESTO	S.ESTO	oil palm plantation	an estate specializing in the cultivation of o
 S	ESTR	S.ESTR	rubber plantation	an estate which specializes in growing and tapping rubber trees
 S	ESTSG	S.ESTSG	sugar plantation	an estate that specializes in growing sugar cane
 S	ESTT	S.ESTT	tea plantation	an estate which specializes in growing tea bushes
-S	ESTX	S.ESTX	section of estate	
+S	ESTX	S.ESTX	section of estate
 S	FCL	S.FCL	facility	a building or buildings housing a center, institute, foundation, hospital, prison, mission, courthouse, etc.
 S	FNDY	S.FNDY	foundry	a building or works where metal casting is carried out
 S	FRM	S.FRM	farm	a tract of land with associated buildings devoted to agriculture
-S	FRMQ	S.FRMQ	abandoned farm	
+S	FRMQ	S.FRMQ	abandoned farm
 S	FRMS	S.FRMS	farms	tracts of land with associated buildings devoted to agriculture
 S	FRMT	S.FRMT	farmstead	the buildings and adjacent service areas of a farm
 S	FT	S.FT	fort	a defensive structure or earthworks
@@ -349,7 +349,7 @@ S	MFGCU	S.MFGCU	copper works	a facility for processing copper ore
 S	MFGLM	S.MFGLM	limekiln	a furnace in which limestone is reduced to lime
 S	MFGM	S.MFGM	munitions plant	a factory where ammunition is made
 S	MFGPH	S.MFGPH	phosphate works	a facility for producing fertilizer
-S	MFGQ	S.MFGQ	abandoned factory	
+S	MFGQ	S.MFGQ	abandoned factory
 S	MFGSG	S.MFGSG	sugar refinery	a facility for converting raw sugar into refined sugar
 S	MKT	S.MKT	market	a place where goods are bought and sold at regular intervals
 S	ML	S.ML	mill(s)	a building housing machines for transforming, shaping, finishing, grinding, or extracting products
@@ -368,14 +368,14 @@ S	MNCU	S.MNCU	copper mine(s)	a mine where copper ore is extracted
 S	MNFE	S.MNFE	iron mine(s)	a mine where iron ore is extracted
 S	MNMT	S.MNMT	monument	a commemorative structure or statue
 S	MNN	S.MNN	salt mine(s)	a mine from which salt is extracted
-S	MNQ	S.MNQ	abandoned mine	
+S	MNQ	S.MNQ	abandoned mine
 S	MNQR	S.MNQR	quarry(-ies)	a surface mine where building stone or gravel and sand, etc. are extracted
 S	MOLE	S.MOLE	mole	a massive structure of masonry or large stones serving as a pier or breakwater
 S	MSQE	S.MSQE	mosque	a building for public Islamic worship
 S	MSSN	S.MSSN	mission	a place characterized by dwellings, school, church, hospital and other facilities operated by a religious group for the purpose of providing charitable services and to propagate religion
-S	MSSNQ	S.MSSNQ	abandoned mission	
+S	MSSNQ	S.MSSNQ	abandoned mission
 S	MSTY	S.MSTY	monastery	a building and grounds where a community of monks lives in seclusion
-S	MTRO	S.MTRO	metro station	metro station (Underground, Tube, or M?tro) 
+S	MTRO	S.MTRO	metro station	metro station (Underground, Tube, or M?tro)
 S	MUS	S.MUS	museum	a building where objects of permanent interest in one or more of the arts and sciences are preserved and exhibited
 S	NOV	S.NOV	novitiate	a religious house or school where novices are trained
 S	NSY	S.NSY	nursery(-ies)	a place where plants are propagated for transplanting or grafting
@@ -383,7 +383,7 @@ S	OBPT	S.OBPT	observation point	a wildlife or scenic observation point
 S	OBS	S.OBS	observatory	a facility equipped for observation of atmospheric or space phenomena
 S	OBSR	S.OBSR	radio observatory	a facility equipped with an array of antennae for receiving radio waves from space
 S	OILJ	S.OILJ	oil pipeline junction	a section of an oil pipeline where two or more pipes join together
-S	OILQ	S.OILQ	abandoned oil well	
+S	OILQ	S.OILQ	abandoned oil well
 S	OILR	S.OILR	oil refinery	a facility for converting crude oil into refined petroleum products
 S	OILT	S.OILT	tank farm	a tract of land occupied by large, cylindrical, metal tanks in which oil or liquid petrochemicals are stored
 S	OILW	S.OILW	oil well	a well from which oil may be pumped
@@ -396,12 +396,12 @@ S	PMPO	S.PMPO	oil pumping station	a facility for pumping oil through a pipeline
 S	PMPW	S.PMPW	water pumping station	a facility for pumping water from a major well or through a pipeline
 S	PO	S.PO	post office	a public building in which mail is received, sorted and distributed
 S	PP	S.PP	police post	a building in which police are stationed
-S	PPQ	S.PPQ	abandoned police post	
+S	PPQ	S.PPQ	abandoned police post
 S	PRKGT	S.PRKGT	park gate	a controlled access to a park
 S	PRKHQ	S.PRKHQ	park headquarters	a park administrative facility
 S	PRN	S.PRN	prison	a facility for confining prisoners
 S	PRNJ	S.PRNJ	reformatory	a facility for confining, training, and reforming young law offenders
-S	PRNQ	S.PRNQ	abandoned prison	
+S	PRNQ	S.PRNQ	abandoned prison
 S	PS	S.PS	power station	a facility for generating electric power
 S	PSH	S.PSH	hydroelectric power station	a building where electricity is generated from water power
 S	PSTB	S.PSTB	border post	a post or station at an international boundary for the regulation of movement of people and goods
@@ -424,9 +424,9 @@ S	RSD	S.RSD	railroad siding	a short track parallel to and joining the main track
 S	RSGNL	S.RSGNL	railroad signal	a signal at the entrance of a particular section of track governing the movement of trains
 S	RSRT	S.RSRT	resort	a specialized facility for vacation, health, or participation sports activities
 S	RSTN	S.RSTN	railroad station	a facility comprising ticket office, platforms, etc. for loading and unloading train passengers and freight
-S	RSTNQ	S.RSTNQ	abandoned railroad station	
+S	RSTNQ	S.RSTNQ	abandoned railroad station
 S	RSTP	S.RSTP	railroad stop	a place lacking station facilities where trains stop to pick up and unload passengers and freight
-S	RSTPQ	S.RSTPQ	abandoned railroad stop	
+S	RSTPQ	S.RSTPQ	abandoned railroad stop
 S	RUIN	S.RUIN	ruin(s)	a destroyed or decayed structure which is no longer functional
 S	SCH	S.SCH	school	building(s) where instruction in one or more branches of knowledge takes place
 S	SCHA	S.SCHA	agricultural school	a school with a curriculum focused on agriculture
@@ -523,7 +523,7 @@ T	ISLF	T.ISLF	artificial island	an island created by landfill or diking and fill
 T	ISLM	T.ISLM	mangrove island	a mangrove swamp surrounded by a waterbody
 T	ISLS	T.ISLS	islands	tracts of land, smaller than a continent, surrounded by water at high water
 T	ISLT	T.ISLT	land-tied island	a coastal island connected to the mainland by barrier beaches, levees or dikes
-T	ISLX	T.ISLX	section of island	
+T	ISLX	T.ISLX	section of island
 T	ISTH	T.ISTH	isthmus	a narrow strip of land connecting two larger land masses and bordered by water
 T	KRST	T.KRST	karst area	a distinctive landscape developed on soluble rock such as limestone characterized by sinkholes, caves, disappearing streams, and underground drainage
 T	LAVA	T.LAVA	lava area	an area of solidified lava
@@ -540,14 +540,14 @@ T	PAN	T.PAN	pan	a near-level shallow, natural depression or basin, usually conta
 T	PANS	T.PANS	pans	a near-level shallow, natural depression or basin, usually containing an intermittent lake, pond, or pool
 T	PASS	T.PASS	pass	a break in a mountain range or other high obstruction, used for transportation from one side to the other [See also gap]
 T	PEN	T.PEN	peninsula	an elongate area of land projecting into a body of water and nearly surrounded by water
-T	PENX	T.PENX	section of peninsula	
+T	PENX	T.PENX	section of peninsula
 T	PK	T.PK	peak	a pointed elevation atop a mountain, ridge, or other hypsographic feature
 T	PKS	T.PKS	peaks	pointed elevations atop a mountain, ridge, or other hypsographic features
 T	PLAT	T.PLAT	plateau	an elevated plain with steep slopes on one or more sides, and often with incised streams
-T	PLATX	T.PLATX	section of plateau	
+T	PLATX	T.PLATX	section of plateau
 T	PLDR	T.PLDR	polder	an area reclaimed from the sea by diking and draining
 T	PLN	T.PLN	plain(s)	an extensive area of comparatively level to gently undulating land, lacking surface irregularities, and usually adjacent to a higher area
-T	PLNX	T.PLNX	section of plain	
+T	PLNX	T.PLNX	section of plain
 T	PROM	T.PROM	promontory(-ies)	a bluff or prominent hill overlooking or projecting into a lowland
 T	PT	T.PT	point	a tapering piece of land projecting into a body of water, less prominent than a cape
 T	PTS	T.PTS	points	tapering pieces of land projecting into a body of water, less prominent than a cape
@@ -574,7 +574,7 @@ T	UPLD	T.UPLD	upland	an extensive interior region of high land with low to moder
 T	VAL	T.VAL	valley	an elongated depression usually traversed by a stream
 T	VALG	T.VALG	hanging valley	a valley the floor of which is notably higher than the valley or shore to which it leads; most common in areas that have been glaciated
 T	VALS	T.VALS	valleys	elongated depressions usually traversed by a stream
-T	VALX	T.VALX	section of valley	
+T	VALX	T.VALX	section of valley
 T	VLC	T.VLC	volcano	a conical elevation composed of volcanic materials with a crater at the top
 U	APNU	U.APNU	apron	a gentle slope, with a generally smooth surface, particularly found around groups of islands and seamounts
 U	ARCU	U.ARCU	arch	a low bulge around the southeastern end of the island of Hawaii
@@ -655,4 +655,4 @@ V	TREE	V.TREE	tree(s)	a conspicuous tree used as a landmark
 V	TUND	V.TUND	tundra	a marshy, treeless, high latitude plain, dominated by mosses, lichens, and low shrub vegetation under permafrost conditions
 V	VIN	V.VIN	vineyard	a planting of grapevines
 V	VINS	V.VINS	vineyards	plantings of grapevines
-		null	not available	
+		null	not available

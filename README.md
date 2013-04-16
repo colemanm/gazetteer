@@ -27,11 +27,7 @@ GeoNames includes a couple of datasets that augment the placenames data:
 * Admin 1 codes - Administrative divisions (e.g. states, provinces)
 * Admin 2 codes - Administrative subdivisions (e.g. counties, districts)
 
-Download only metadata tables with:
-
-```shell
-make metadata
-```
+### Cities
 
 If you only want names data for cities and places (for map labeling purposes), there are maintained subsets of placenames for cities divided by population: cities with population over 1000, 5000, and 15000.
 
@@ -55,3 +51,7 @@ To clean up the `data/` cache after you've run imports, run `make clean`.
 
 * [Data sources](http://www.geonames.org/data-sources.html)
 * [GeoNames FAQ](http://forum.geonames.org/gforum/forums/show/6.page)
+
+## License
+
+BSD. GeoNames [data](share/data) is [CC](http://creativecommons.org/licenses/by/3.0/).

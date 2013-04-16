@@ -11,6 +11,8 @@ class Gazetteer < Thor
 
   SHARE_PATH = File.join(File.dirname(__FILE__), "..", "share")
   DATA_PATH = File.join(File.dirname(__FILE__), "..", "data")
+  METADATA_PATH = File.join(File.dirname(__FILE__), "..", "share", "data")
+  SQL_PATH = File.join(File.dirname(__FILE__), "..", "share", "sql")
 
   desc "code", "Search for the correct 2-letter ISO country code, by search term."
   method_option :search, :aliases => "-s", :desc => "Phrase or name to search for."
@@ -90,10 +92,13 @@ class Gazetteer < Thor
   method_option :dbname, :aliases => "-d", :desc => "Database name", :required => true
   method_option :connection, :aliases => "-c", :desc => "Postgres connection name"
   def metadata
-    sql = File.read(File.join(SHARE_PATH, "populate_country_info.sql"))
     db = database(options[:connection], options[:dbname])
-    puts populate_country_info_sql
-
+    db.run create_metadata_tables_sql
+    db.run populate_country_info_sql
+    db.run populate_feature_codes_sql
+    db.run populate_admin1_sql
+    db.run populate_admin2_sql
+    db.run populate_language_codes_sql
   end
 
   desc "import", "Import GeoNames data."
@@ -175,9 +180,42 @@ class Gazetteer < Thor
           iscolloquial,
           ishistoric
         ) from '#{File.join(DATA_PATH, "alternateNames.txt")}' null as '';
+      SQL
+    end
 
-        ALTER TABLE ONLY alternatename
-          ADD CONSTRAINT pk_alternatenameid PRIMARY KEY (alternatenameid);
+    def create_metadata_tables_sql
+      sql = ""
+      sql << File.read(File.join(SHARE_PATH, "create_admin1codes.sql"))
+      sql << File.read(File.join(SHARE_PATH, "create_admin2codes.sql"))
+      sql << File.read(File.join(SHARE_PATH, "create_countryinfo.sql"))
+      sql << File.read(File.join(SHARE_PATH, "create_featurecodes.sql"))
+      sql << File.read(File.join(SHARE_PATH, "create_languagecodes.sql"))
+      sql
+    end
+
+    def populate_admin1_sql
+      <<-SQL
+        copy admin1codes (
+          code,
+          countrycode,
+          admin1_code,
+          name,
+          alt_name_english,
+          geonameid
+        ) from '#{File.join(SHARE_PATH, "admin1codes.txt")}' null as '';
+      SQL
+    end
+
+    def populate_admin2_sql
+      <<-SQL
+        copy admin2codes (
+          code,
+          countrycode,
+          admin1_code,
+          name,
+          alt_name_english,
+          geonameid
+        ) from '#{File.join(SHARE_PATH, "admin2codes.txt")}' null as '';
       SQL
     end
 
@@ -204,9 +242,6 @@ class Gazetteer < Thor
           neighbors,
           equivfipscode
         ) from '#{File.join(DATA_PATH, "countryinfo.txt")}' null as '';
-
-        ALTER TABLE ONLY countryinfo
-          ADD CONSTRAINT pk_iso_alpha2 PRIMARY KEY (iso_alpha2);
       SQL
     end
 
@@ -219,9 +254,6 @@ class Gazetteer < Thor
           label,
           description
         ) from '#{File.join(SHARE_PATH, "featurecodes.txt")}' null as '';
-
-        ALTER TABLE ONLY featurecodes
-          ADD CONSTRAINT pk_fcode PRIMARY KEY (fcode);
       SQL
     end
 
@@ -233,41 +265,6 @@ class Gazetteer < Thor
           iso_639_1,
           name
         ) from '#{File.join(SHARE_PATH, "languagecodes.txt")}' null as '';
-
-        ALTER TABLE ONLY languagecodes
-          ADD CONSTRAINT pk_iso_639_3 PRIMARY KEY (iso_639_3);
-      SQL
-    end
-
-    def populate_admin1_sql
-      <<-SQL
-        copy admin1codes (
-          code,
-          countrycode,
-          admin1_code,
-          name,
-          alt_name_english,
-          geonameid
-        ) from '#{File.join(SHARE_PATH, "admin1codes.txt")}' null as '';
-
-        ALTER TABLE ONLY admin1codes
-          ADD CONSTRAINT pk_geonameid PRIMARY KEY (geonameid);
-      SQL
-    end
-
-    def populate_admin2_sql
-      <<-SQL
-        copy admin2codes (
-          code,
-          countrycode,
-          admin1_code,
-          name,
-          alt_name_english,
-          geonameid
-        ) from '#{File.join(SHARE_PATH, "admin2codes.txt")}' null as '';
-
-        ALTER TABLE ONLY admin2codes
-          ADD CONSTRAINT pk_geonameid PRIMARY KEY (geonameid);
       SQL
     end
 
