@@ -3,7 +3,7 @@ create table featurecodes (
   class varchar(10),
   fcode varchar (10),
   label varchar(100),
-  description varchar(200)
+  description varchar(1000)
  );
 
 ALTER TABLE ONLY featurecodes

@@ -655,4 +655,3 @@ V	TREE	V.TREE	tree(s)	a conspicuous tree used as a landmark
 V	TUND	V.TUND	tundra	a marshy, treeless, high latitude plain, dominated by mosses, lichens, and low shrub vegetation under permafrost conditions
 V	VIN	V.VIN	vineyard	a planting of grapevines
 V	VINS	V.VINS	vineyards	plantings of grapevines
-		null	not available

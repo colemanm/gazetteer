@@ -1,5 +1,5 @@
 create table admin2codes (
-  code varchar(20),
+  code varchar(50),
   countrycode char(2),
   admin1_code varchar(10),
   name varchar(200),

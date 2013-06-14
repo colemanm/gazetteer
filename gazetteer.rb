@@ -3,6 +3,7 @@
 require 'rubygems'
 require 'thor'
 require 'json'
+require 'csv'
 require 'yaml'
 require 'pg'
 require 'sequel'
@@ -11,11 +12,11 @@ class Gazetteer < Thor
 
   SHARE_PATH = "share"
   DATA_PATH = "data"
-  METADATA_PATH = File.join(SHARE_PATH, "metadata")
-  SQL_PATH = File.join(SHARE_PATH, "sql")
+  METADATA_PATH = File.expand_path(File.join(SHARE_PATH, "metadata"))
+  SQL_PATH = File.expand_path(File.join(SHARE_PATH, "sql"))
 
   desc "code", "Search for the correct 2-letter ISO country code, by search term."
-  method_option :search, :aliases => "-s", :desc => "Phrase or name to search for."
+  method_option :search, aliases: "-s", desc: "Phrase or name to search for."
   def code
     codes = File.join(SHARE_PATH, "iso_3166-1.json")
     data = JSON.parse(File.read(codes))
@@ -28,7 +29,7 @@ class Gazetteer < Thor
   end
 
   desc "download", "Download the GeoNames data for a specific country."
-  method_option :country, :aliases => "-c", :desc => "Download a specific country's data"
+  method_option :country, aliases: "-c", desc: "Download a specific country's data"
   def download
     path = DATA_PATH
     country = options[:country]
@@ -45,102 +46,93 @@ class Gazetteer < Thor
     end
   end
 
-  desc "createtables", "Create GeoNames PostGIS tables."
-  method_option :dbname, :aliases => "-d", :desc => "Database name", :required => true
-  def createtables
-    geoname = options[:geoname]
-    alternatenames = options[:altname]
-    countryinfo = options[:countryinfo]
-
-    puts "Creating \"geoname\" table..."
-    `psql -d #{options[:dbname]} -f "#{File.join(SHARE_PATH, 'create_geoname.sql')}"`
-    puts "Table \"geoname\" created."
-
-    puts "Creating \"alternatenames\" table..."
-    `PGOPTIONS='--client-min-messages=warning' psql -d #{options[:dbname]} -f "#{File.join(SHARE_PATH, 'create_alternate_name.sql')}"`
-    puts "Table \"alternatenames\" created."
-
-    puts "Creating \"countryinfo\" table..."
-    `PGOPTIONS='--client-min-messages=warning' psql -d #{options[:dbname]} -f "#{File.join(SHARE_PATH, 'create_country_info.sql')}"`
-    puts "Table \"countryinfo\" created."
-
-    puts "Setting primary keys..."
-    `PGOPTIONS='--client-min-messages=warning' psql -d #{options[:dbname]} -f "#{File.join(SHARE_PATH, 'create_primary_keys.sql')}"`
-    puts "Primary keys created."
-
-    puts "Setting foreign keys..."
-    `psql -d #{options[:dbname]} -f "#{File.join(SHARE_PATH, 'create_foreign_keys.sql')}"`
-    puts "Foreign keys created."
-
+  desc "setup", "Create GeoNames PostGIS tables."
+  method_option :connection, aliases: "-c", desc: "Postgres connection name", required: true
+  method_option :database, aliases: "-d", desc: "Database name", required: true
+  def setup
+    database.run 'CREATE EXTENSION "postgis"' rescue nil
+    puts "Creating tables..."
+    database.run create_tables
+    puts "Creating indexes..."
+    database.run create_indexes
     puts "GeoNames tables created."
   end
 
-  # todo: use sequel to
-  desc "altnames", "Import alternate names data table."
-  method_option :dbname, :aliases => "-d", :desc => "Database name", :required => true
-  method_option :connection, :aliases => "-c", :desc => "Postgres connection name"
-  def altnames
-    sql = File.read(File.join(SHARE_PATH, "populate_alternate_name.sql"))
-    db = database(options[:connection], options[:dbname])
-    # db.run(sql)
-    puts populate_alternate_names_sql
-    # `psql -d #{options[:dbname]} -c "copy alternatename (alternatenameid,geonameid,isolanguage,alternatename,ispreferredname,isshortname,iscolloquial,ishistoric) from '#{options[:file]}' null as ''"`
-  end
-
-  desc "metadata", "Populate metadata tables."
-  method_option :dbname, :aliases => "-d", :desc => "Database name", :required => true
-  method_option :connection, :aliases => "-c", :desc => "Postgres connection name"
-  def metadata
-    db = database(options[:connection], options[:dbname])
-    puts db
-    db.run create_metadata_tables_sql
-    db.run populate_metadata_tables_sql
-  end
-
-  desc "import", "Import GeoNames data."
-  method_option :dbname, :aliases => "-d", :desc => "Database name"
-  method_option :cities, :aliases => "-c", :desc => "Import cities data"
-  method_option :file, :aliases => "-f", :desc => "GeoNames text file to import, full path"
+  desc "import", "Import GeoNames data from raw text"
+  method_option :connection, aliases: "-c", desc: "Postgres connection name", required: true
+  method_option :database, aliases: "-d", desc: "Database name", required: true
+  method_option :file, aliases: "-f", desc: "File to import", required: true
   def import
-    puts "Importing names from #{options[:file]}..."
-    conn = PG.connect( dbname: options[:dbname] )
-    # conn.exec('COPY geoname ')
-    # `psql -d #{options[:dbname]} -c "copy geoname (geonameid,name,asciiname,alternatenames,latitude,longitude,fclass,fcode,country,cc2,admin1,admin2,admin3,admin4,population,elevation,gtopo30,timezone,moddate) from '#{options[:file]}' null as ''"`
+    # data = CSV.read(options[:file], { col_sep: "\t" })
+    CSV.foreach(options[:file], { col_sep: "\t" }) do |row|
+      database[:geoname].insert(row)
+    end
   end
+
+  desc "altnames", "Import alternate names data table"
+  method_option :connection, aliases: "-c", desc: "Postgres connection name", required: true
+  method_option :database, aliases: "-d", desc: "Database name", required: true
+  def altnames
+    database.run populate_alternate_names_sql
+    puts "'alternate names' data inserted."
+  end
+
+  desc "metadata", "Populate metadata tables"
+  method_option :connection, aliases:  "-c", desc: "Postgres connection name"
+  method_option :database, aliases: "-d", desc: "Database name", required: true
+  def metadata
+    populate_admin1
+    puts "Admin 1 names imported."
+    populate_admin2
+    puts "Admin 2 names imported."
+    populate_countryinfo
+    puts "countryinfo imported."
+    populate_featurecodes
+    puts "featurecodes imported."
+    populate_languagecodes
+    puts "languagecodes imported."
+    puts "Metadata import complete."
+  end
+
+  # desc "import", "Import GeoNames data."
+  # method_option :dbname, aliases:  "-d", desc: => "Database name"
+  # method_option :cities, aliases:  "-c", desc: => "Import cities data"
+  # method_option :file, aliases:  "-f", desc: => "GeoNames text file to import, full path"
+  # def import
+  #   puts "Importing names from #{options[:file]}..."
+  #   conn = PG.connect( dbname: options[:dbname] )
+  #   # conn.exec('COPY geoname ')
+  #   # `psql -d #{options[:dbname]} -c "copy geoname (geonameid,name,asciiname,alternatenames,latitude,longitude,fclass,fcode,country,cc2,admin1,admin2,admin3,admin4,population,elevation,gtopo30,timezone,moddate) from '#{options[:file]}' null as ''"`
+  # end
 
   # desc "country", "Extract a chunk of a GeoNames database by country and insert into a new table."
-  # method_option :dbname, :aliases => "-d", :desc => "Database name", :required => true
-  # method_option :user, :aliases => "-u", :desc => "Database user name", :required => true
-  # method_option :src, :aliases => "-s", :desc => "Source table name", :required => true
-  # method_option :dst, :aliases => "-t", :desc => "Destination table name", :required => true
-  # method_option :country, :aliases => "-c", :desc => "Country code you want to extract and insert.", :required => true
+  # method_option :dbname, aliases:  "-d", desc: => "Database name", :required => true
+  # method_option :user, aliases:  "-u", desc: => "Database user name", :required => true
+  # method_option :src, aliases:  "-s", desc: => "Source table name", :required => true
+  # method_option :dst, aliases:  "-t", desc: => "Destination table name", :required => true
+  # method_option :country, aliases:  "-c", desc: => "Country code you want to extract and insert.", :required => true
   # def country
   #   `psql -U #{options[:user]} -d #{options[:dbname]} -c "CREATE TABLE #{options[:dst]} AS SELECT * FROM #{options[:src]} WHERE country = '#{options[:country]}'"`
   # end
 
   # desc "list", "List countries available in a GeoNames database."
-  # method_option :dbname, :aliases => "-d", :desc => "Database name", :required => true
-  # method_option :user, :aliases => "-u", :desc => "Database user name", :required => true
-  # method_option :table, :aliases => "-t", :desc => "Table containing GeoNames records", :required => true
+  # method_option :dbname, aliases:  "-d", desc: => "Database name", :required => true
+  # method_option :user, aliases:  "-u", desc: => "Database user name", :required => true
+  # method_option :table, aliases:  "-t", desc: => "Table containing GeoNames records", :required => true
   # def list
   #   `psql -U #{options[:user]} -d #{options[:dbname]} -c "SELECT DISTINCT country FROM #{options[:table]} ORDER BY country ASC"`
   # end
 
   no_tasks do
 
-    # Establish a database connection. Reads params from ~/.postgres config in home directory
-    def database(server, db)
-      options = YAML.load(File.read(File.expand_path("~/.postgres")))[server]
+    def database
+      settings = YAML.load(File.read(File.expand_path("~/.postgres")))[options[:connection]]
       @db ||= Sequel.connect(adapter: "postgres",
-                          host: options["host"],
-                          database: db,
-                          user: options["user"],
-                          password: options["password"])
+                          host: settings["host"],
+                          database: options[:database],
+                          user: settings["user"],
+                          password: settings["password"])
     end
-
-    # def create_alternate_name()
-    #   sql = File.read(File.join(File.dirname(__FILE__), "..", "share", "create_alternate_name.sql"))
-    # end
 
     def country_lookup(code)
       codes = File.join(SHARE_PATH, "iso_3166-1.json")
@@ -148,6 +140,151 @@ class Gazetteer < Thor
       match = data.select do |item|
         item["code"] == code
       end.first["name"]
+    end
+
+    def create_tables
+      <<-SQL
+      create table geoname (
+        geonameid int,
+        name varchar(200),
+        asciiname varchar(200),
+        alternatenames varchar(8000),
+        latitude float,
+        longitude float,
+        fclass char(1),
+        fcode varchar(10),
+        country varchar(2),
+        cc2 varchar(60),
+        admin1 varchar(20),
+        admin2 varchar(80),
+        admin3 varchar(20),
+        admin4 varchar(20),
+        population bigint,
+        elevation int,
+        gtopo30 int,
+        timezone varchar(40),
+        moddate date
+       );
+      ALTER TABLE ONLY geoname
+        ADD CONSTRAINT pk_geonameid PRIMARY KEY (geonameid);
+
+      create table alternatename (
+        alternatenameId int,
+        geonameid int,
+        isoLanguage varchar(7),
+        alternateName varchar(200),
+        isPreferredName boolean,
+        isShortName boolean,
+        isColloquial boolean,
+        isHistoric boolean
+       );
+      ALTER TABLE ONLY alternatename
+        ADD CONSTRAINT pk_alternatenameid PRIMARY KEY (alternatenameid);
+
+      create table admin1codes (
+        code varchar(10),
+        countrycode char(2),
+        admin1_code varchar(10),
+        name varchar(200),
+        alt_name_english varchar(200),
+        geonameid int
+      );
+      ALTER TABLE ONLY admin1codes
+        ADD CONSTRAINT pk_admin1id PRIMARY KEY (geonameid);
+
+      create table admin2codes (
+        code varchar(50),
+        countrycode char(2),
+        admin1_code varchar(10),
+        name varchar(200),
+        alt_name_english varchar(200),
+        geonameid int
+      );
+      ALTER TABLE ONLY admin2codes
+        ADD CONSTRAINT pk_admin2id PRIMARY KEY (geonameid);
+
+      create table countryinfo (
+        iso_alpha2 char(2),
+        iso_alpha3 char(3),
+        iso_numeric integer,
+        fips_code varchar(3),
+        name varchar(200),
+        capital varchar(200),
+        areainsqkm double precision,
+        population integer,
+        continent varchar(2),
+        tld varchar(10),
+        currencycode varchar(3),
+        currencyname varchar(20),
+        phone varchar(20),
+        postalcode varchar(100),
+        postalcoderegex varchar(200),
+        languages varchar(200),
+        geonameId int,
+        neighbors varchar(50),
+        equivfipscode varchar(3)
+      );
+      ALTER TABLE ONLY countryinfo
+        ADD CONSTRAINT pk_iso_alpha2 PRIMARY KEY (iso_alpha2);
+
+      create table featurecodes (
+        code varchar(1),
+        class varchar(10),
+        fcode varchar (10),
+        label varchar(100),
+        description varchar(200)
+       );
+      ALTER TABLE ONLY featurecodes
+        ADD CONSTRAINT pk_fcode PRIMARY KEY (fcode);
+
+      create table languagecodes (
+        iso_639_3 varchar(3),
+        iso_639_2 varchar(3),
+        iso_639_1 varchar(2),
+        name varchar(200)
+      );
+      ALTER TABLE ONLY languagecodes
+        ADD CONSTRAINT pk_languageid PRIMARY KEY (iso_639_3);
+
+      SQL
+    end
+
+    def create_indexes
+      <<-SQL
+        CREATE INDEX index_geoname_on_name ON geoname USING btree (name);
+        CREATE INDEX index_geoname_on_altname ON geoname USING btree (alternatenames);
+      SQL
+    end
+
+    def populate_admin1
+      CSV.foreach(File.join(METADATA_PATH, "admin1codes.txt"), { col_sep: "\t" }) do |row|
+        database[:admin1codes].insert(row)
+      end
+    end
+
+    def populate_admin2
+      CSV.foreach(File.join(METADATA_PATH, "admin2codes.txt"), { col_sep: "\t" }) do |row|
+        database[:admin2codes].insert(row)
+      end
+    end
+
+    def populate_countryinfo
+      CSV.foreach(File.join(METADATA_PATH, "countryinfo.txt"), { col_sep: "\t" }) do |row|
+        database[:countryinfo].insert(row)
+      end
+    end
+
+    def populate_featurecodes
+      CSV.foreach(File.join(METADATA_PATH, "featurecodes.txt"), { col_sep: "\t" }) do |row|
+        puts row
+        # database[:featurecodes].insert(row)
+      end
+    end
+
+    def populate_languagecodes
+      CSV.foreach(File.join(METADATA_PATH, "languagecodes.txt"), { col_sep: "\t" }) do |row|
+        database[:languagecodes].insert(row)
+      end
     end
 
     def populate_alternate_names_sql
@@ -162,101 +299,6 @@ class Gazetteer < Thor
           iscolloquial,
           ishistoric
         ) from '#{File.read(File.join(DATA_PATH, "alternateNames.txt"))}' null as '';
-      SQL
-    end
-
-    def create_metadata_tables_sql
-      sql = ""
-      sql << File.read(File.join(SQL_PATH, "create_admin1codes.sql"))
-      sql << File.read(File.join(SQL_PATH, "create_admin2codes.sql"))
-      sql << File.read(File.join(SQL_PATH, "create_countryinfo.sql"))
-      sql << File.read(File.join(SQL_PATH, "create_featurecodes.sql"))
-      sql << File.read(File.join(SQL_PATH, "create_languagecodes.sql"))
-      sql
-    end
-
-    def populate_metadata_tables_sql
-      sql = ""
-      sql << populate_admin1_sql
-      sql << populate_admin2_sql
-      sql << populate_country_info_sql
-      sql << populate_feature_codes_sql
-      sql << populate_language_codes_sql
-      sql
-    end
-
-    def populate_admin1_sql
-      <<-SQL
-        copy admin1codes (
-          code,
-          countrycode,
-          admin1_code,
-          name,
-          alt_name_english,
-          geonameid
-        ) from '#{File.read(File.join(METADATA_PATH, "admin1codes.txt"))}' null as '';
-      SQL
-    end
-
-    def populate_admin2_sql
-      <<-SQL
-        copy admin2codes (
-          code,
-          countrycode,
-          admin1_code,
-          name,
-          alt_name_english,
-          geonameid
-        ) from '#{File.read(File.join(METADATA_PATH, "admin2codes.txt"))}' null as '';
-      SQL
-    end
-
-    def populate_country_info_sql
-      <<-SQL
-        copy countryinfo (
-          iso_alpha2,
-          iso_alpha3,
-          iso_numeric,
-          fips_code,
-          name,
-          capital,
-          areainsqkm,
-          population,
-          continent,
-          tld,
-          currencycode,
-          currencyname,
-          phone,
-          postalcode,
-          postalcoderegex,
-          languages,
-          geonameid,
-          neighbors,
-          equivfipscode
-        ) from '#{File.read(File.join(METADATA_PATH, "countryinfo.txt"))}' null as '';
-      SQL
-    end
-
-    def populate_feature_codes_sql
-      <<-SQL
-        copy featurecodes (
-          fcode,
-          class,
-          code,
-          label,
-          description
-        ) from '#{File.read(File.join(METADATA_PATH, "featurecodes.txt"))}' null as '';
-      SQL
-    end
-
-    def populate_language_codes_sql
-      <<-SQL
-        copy languagecodes (
-          iso_639_3,
-          iso_639_2,
-          iso_639_1,
-          name
-        ) from '#{File.read(File.join(METADATA_PATH, "languagecodes.txt"))}' null as '';
       SQL
     end
 

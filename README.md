@@ -42,7 +42,9 @@ To clean up the `data/` cache after you've run imports, run `make clean`.
 **code** - Search for an ISO code by name or partial string:
 
 ```shell
-./gazetteer code -s "United"    # Returns "US"
+$ ./gazetteer.rb code -s Alb
+Albania: **AL**
+Svalbard and Jan Mayen: **SJ**
 ```
 
 **createtables** - Create table structures for GeoNames tables in Postgres.
