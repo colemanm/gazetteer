@@ -47,7 +47,7 @@ class Gazetteer < Thor
   end
 
   desc "setup", "Create GeoNames PostGIS tables."
-  method_option :connection, aliases: "-c", desc: "Postgres connection name", required: true
+  method_option :connection, aliases: "-c", desc: "Postgres connection name", default: "localhost", required: true
   method_option :database, aliases: "-d", desc: "Database name", required: true
   def setup
     database.run 'CREATE EXTENSION "postgis"' rescue nil
@@ -59,26 +59,26 @@ class Gazetteer < Thor
   end
 
   desc "import", "Import GeoNames data from raw text"
-  method_option :connection, aliases: "-c", desc: "Postgres connection name", required: true
+  method_option :connection, aliases: "-c", desc: "Postgres connection name", default: "localhost", required: true
   method_option :database, aliases: "-d", desc: "Database name", required: true
   method_option :file, aliases: "-f", desc: "File to import", required: true
   def import
-    # data = CSV.read(options[:file], { col_sep: "\t" })
     CSV.foreach(options[:file], { col_sep: "\t" }) do |row|
       database[:geoname].insert(row)
     end
+    create_geom
   end
 
   desc "altnames", "Import alternate names data table"
-  method_option :connection, aliases: "-c", desc: "Postgres connection name", required: true
+  method_option :connection, aliases: "-c", desc: "Postgres connection name", default: "localhost", required: true
   method_option :database, aliases: "-d", desc: "Database name", required: true
   def altnames
-    database.run populate_alternate_names_sql
-    puts "'alternate names' data inserted."
+    populate_alternate_names
+    puts "Alternate names data imported."
   end
 
   desc "metadata", "Populate metadata tables"
-  method_option :connection, aliases:  "-c", desc: "Postgres connection name"
+  method_option :connection, aliases:  "-c", desc: "Postgres connection name", default: "localhost", required: true
   method_option :database, aliases: "-d", desc: "Database name", required: true
   def metadata
     populate_admin1
@@ -86,24 +86,13 @@ class Gazetteer < Thor
     populate_admin2
     puts "Admin 2 names imported."
     populate_countryinfo
-    puts "countryinfo imported."
+    puts "Country info imported."
     populate_featurecodes
-    puts "featurecodes imported."
+    puts "Feature codes imported."
     populate_languagecodes
-    puts "languagecodes imported."
-    puts "Metadata import complete."
+    puts "Language codes imported."
+    puts "\033[1mMetadata import complete.\033[0m"
   end
-
-  # desc "import", "Import GeoNames data."
-  # method_option :dbname, aliases:  "-d", desc: => "Database name"
-  # method_option :cities, aliases:  "-c", desc: => "Import cities data"
-  # method_option :file, aliases:  "-f", desc: => "GeoNames text file to import, full path"
-  # def import
-  #   puts "Importing names from #{options[:file]}..."
-  #   conn = PG.connect( dbname: options[:dbname] )
-  #   # conn.exec('COPY geoname ')
-  #   # `psql -d #{options[:dbname]} -c "copy geoname (geonameid,name,asciiname,alternatenames,latitude,longitude,fclass,fcode,country,cc2,admin1,admin2,admin3,admin4,population,elevation,gtopo30,timezone,moddate) from '#{options[:file]}' null as ''"`
-  # end
 
   # desc "country", "Extract a chunk of a GeoNames database by country and insert into a new table."
   # method_option :dbname, aliases:  "-d", desc: => "Database name", :required => true
@@ -169,14 +158,14 @@ class Gazetteer < Thor
         ADD CONSTRAINT pk_geonameid PRIMARY KEY (geonameid);
 
       create table alternatename (
-        alternatenameId int,
+        alternatenameid int,
         geonameid int,
         isoLanguage varchar(7),
-        alternateName varchar(200),
-        isPreferredName boolean,
-        isShortName boolean,
-        isColloquial boolean,
-        isHistoric boolean
+        alternatename varchar(200),
+        ispreferredname boolean,
+        isshortname boolean,
+        iscolloquial boolean,
+        ishistoric boolean
        );
       ALTER TABLE ONLY alternatename
         ADD CONSTRAINT pk_alternatenameid PRIMARY KEY (alternatenameid);
@@ -220,7 +209,7 @@ class Gazetteer < Thor
         postalcode varchar(100),
         postalcoderegex varchar(200),
         languages varchar(200),
-        geonameId int,
+        geonameid int,
         neighbors varchar(50),
         equivfipscode varchar(3)
       );
@@ -232,16 +221,16 @@ class Gazetteer < Thor
         class varchar(10),
         fcode varchar (10),
         label varchar(100),
-        description varchar(200)
+        description varchar(1000)
        );
       ALTER TABLE ONLY featurecodes
         ADD CONSTRAINT pk_fcode PRIMARY KEY (fcode);
 
       create table languagecodes (
-        iso_639_3 varchar(3),
-        iso_639_2 varchar(3),
+        iso_639_3 varchar(10),
+        iso_639_2 varchar(10),
         iso_639_1 varchar(2),
-        name varchar(200)
+        name varchar(1000)
       );
       ALTER TABLE ONLY languagecodes
         ADD CONSTRAINT pk_languageid PRIMARY KEY (iso_639_3);
@@ -276,8 +265,7 @@ class Gazetteer < Thor
 
     def populate_featurecodes
       CSV.foreach(File.join(METADATA_PATH, "featurecodes.txt"), { col_sep: "\t" }) do |row|
-        puts row
-        # database[:featurecodes].insert(row)
+        database[:featurecodes].insert(row)
       end
     end
 
@@ -288,18 +276,15 @@ class Gazetteer < Thor
     end
 
     def populate_alternate_names_sql
-      <<-SQL
-        copy alternatename (
-          alternatenameid,
-          geonameid,
-          isolanguage,
-          alternatename,
-          ispreferredname,
-          isshortname,
-          iscolloquial,
-          ishistoric
-        ) from '#{File.read(File.join(DATA_PATH, "alternateNames.txt"))}' null as '';
-      SQL
+      CSV.foreach(File.join(DATA_PATH, "alternateNames.txt"), { col_sep: "\t" }) do |row|
+        database[:languagecodes].insert(row)
+      end
+    end
+
+    def create_geom
+      database.run "SELECT AddGeometryColumn ('public','geoname','geometry',4326,'POINT',2);"
+      database.run "UPDATE geoname SET geometry = ST_PointFromText('POINT(' || longitude || ' ' || latitude || ')', 4326);"
+      database.run "CREATE INDEX idx_geoname_geometry ON public.geoname USING gist(geometry);"
     end
 
   end
