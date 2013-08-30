@@ -17,7 +17,7 @@ Downloading the full database will download and extract the the global GeoNames 
 make data
 ```
 
-The full data download includes the full current snapshot of all features, the alternate names lookup table (for multilingual labeling or toponymological analysis), and the large city datasets, for convenience.
+The full data download includes the full current snapshot of all features, the alternate names lookup table (for multilingual labeling or toponymical analysis), and the large city datasets, for convenience.
 
 ### Metadata
 
@@ -51,7 +51,6 @@ When you have a place to put the data, here are some of the tasks you can run to
 * `./gazetteer.rb code -s "alb"` - The `code` task takes a search term (like "alb"), and returns the proper ISO country codes for any results (like "Albania" and "Svalbard").
 * `./gazetteer.rb download -c AL` - Download a single country of GeoNames data by country code.
 * `./gazetter.rb metadata -d geonames` - Populate your database with placename metadata, like language, feature, and admin codes. Useful for JOINing other info to your placename tables.
-* 
 
 **code** - Search for an ISO code by name or partial string:
 
