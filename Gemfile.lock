@@ -31,6 +31,7 @@ GEM
     arel (3.0.2)
     builder (3.0.4)
     erubis (2.7.0)
+    highline (1.6.20)
     hike (1.2.2)
     i18n (0.6.1)
     journey (1.0.4)
@@ -41,6 +42,7 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.22)
     multi_json (1.7.2)
+    options (2.3.1)
     pg (0.15.1)
     polyglot (0.3.3)
     postgres-copy (0.5.8)
@@ -48,6 +50,9 @@ GEM
       pg
       rails (>= 3.0.0)
       responders
+    progress_bar (1.0.0)
+      highline (~> 1.6.1)
+      options (~> 2.3.0)
     rack (1.4.5)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -95,5 +100,6 @@ DEPENDENCIES
   json
   pg
   postgres-copy
+  progress_bar
   sequel
   thor
