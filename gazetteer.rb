@@ -7,6 +7,7 @@ require 'csv'
 require 'yaml'
 require 'pg'
 require 'sequel'
+require 'progress_bar'
 
 class Gazetteer < Thor
 
@@ -63,10 +64,8 @@ class Gazetteer < Thor
   method_option :database, aliases: "-d", desc: "Database name", required: true
   method_option :file, aliases: "-f", desc: "File to import", required: true
   def import
-    CSV.foreach(options[:file], { col_sep: "\t" }) do |row|
-      database[:geoname].insert(row)
-    end
-    create_geom
+    populate_geonames(options[:file])
+    # create_geom
   end
 
   desc "altnames", "Import alternate names data table"
@@ -241,7 +240,6 @@ class Gazetteer < Thor
     def create_indexes
       <<-SQL
         CREATE INDEX index_geoname_on_name ON geoname USING btree (name);
-        CREATE INDEX index_geoname_on_altname ON geoname USING btree (alternatenames);
       SQL
     end
 
@@ -275,9 +273,19 @@ class Gazetteer < Thor
       end
     end
 
-    def populate_alternate_names_sql
+    def populate_geonames(file)
+      progress = ProgressBar.new(count_rows(file))
+      CSV.foreach(file, { col_sep: "\t" }) do |row|
+        database[:geoname].insert(row)
+        progress.increment!
+      end
+    end
+
+    def populate_alternate_names
+      progress = ProgressBar.new(8028082)
       CSV.foreach(File.join(DATA_PATH, "alternateNames.txt"), { col_sep: "\t" }) do |row|
-        database[:languagecodes].insert(row)
+        database[:alternatename].insert(row)
+        progress.increment!
       end
     end
 
@@ -285,6 +293,10 @@ class Gazetteer < Thor
       database.run "SELECT AddGeometryColumn ('public','geoname','geometry',4326,'POINT',2);"
       database.run "UPDATE geoname SET geometry = ST_PointFromText('POINT(' || longitude || ' ' || latitude || ')', 4326);"
       database.run "CREATE INDEX idx_geoname_geometry ON public.geoname USING gist(geometry);"
+    end
+
+    def count_rows(file)
+      count = `cat #{file} | wc -l`.to_i
     end
 
   end

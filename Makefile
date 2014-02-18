@@ -31,10 +31,10 @@ cities: \
 
 # Zips
 data/allcountries.zip:
-	curl -o data/allcountries.zip "http://download.geonames.org/export/dump/allCountries.zip"
+	curl -s -o data/allcountries.zip "http://download.geonames.org/export/dump/allCountries.zip"
 
 data/alternatenames.zip:
-	curl -o data/alternatenames.zip "http://download.geonames.org/export/dump/alternateNames.zip"
+	curl -s -o data/alternatenames.zip "http://download.geonames.org/export/dump/alternateNames.zip"
 
 data/allcountries.txt: data/allcountries.zip
 	unzip -d data/ data/allcountries.zip
@@ -49,13 +49,13 @@ data/alternatenames.txt: data/alternatenames.zip
 
 # Cities
 data/cities15000.zip:
-	curl -o data/cities15000.zip "http://download.geonames.org/export/dump/cities15000.zip"
+	curl -s -o data/cities15000.zip "http://download.geonames.org/export/dump/cities15000.zip"
 
 data/cities5000.zip:
-	curl -o data/cities5000.zip "http://download.geonames.org/export/dump/cities5000.zip"
+	curl -s -o data/cities5000.zip "http://download.geonames.org/export/dump/cities5000.zip"
 
 data/cities1000.zip:
-	curl -o data/cities1000.zip "http://download.geonames.org/export/dump/cities1000.zip"
+	curl -s -o data/cities1000.zip "http://download.geonames.org/export/dump/cities1000.zip"
 
 data/cities15000.txt: data/cities15000.zip
 	unzip -d data/ data/cities15000.zip

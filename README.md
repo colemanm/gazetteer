@@ -50,14 +50,14 @@ When you have a place to put the data, here are some of the tasks you can run to
 * `./gazetteer.rb setup -d geonames` - This step is required for all the other tasks. This populates your database with the proper tables and database schema.
 * `./gazetteer.rb code -s "alb"` - The `code` task takes a search term (like "alb"), and returns the proper ISO country codes for any results (like "Albania" and "Svalbard").
 * `./gazetteer.rb download -c AL` - Download a single country of GeoNames data by country code.
-* `./gazetter.rb metadata -d geonames` - Populate your database with placename metadata, like language, feature, and admin codes. Useful for JOINing other info to your placename tables.
+* `./gazetteer.rb metadata -d geonames` - Populate your database with placename metadata, like language, feature, and admin codes. Useful for JOINing other info to your placename tables.
 
 **code** - Search for an ISO code by name or partial string:
 
 ```shell
 $ ./gazetteer.rb code -s Alb
-Albania: **AL**
-Svalbard and Jan Mayen: **SJ**
+Albania: AL
+Svalbard and Jan Mayen: SJ
 ```
 
 ## Other Resources
