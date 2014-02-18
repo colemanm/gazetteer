@@ -93,6 +93,14 @@ class Gazetteer < Thor
     puts "\033[1mMetadata import complete.\033[0m"
   end
 
+  desc "postprocess", "Postprocess data tables"
+  method_option :connection, aliases:  "-c", desc: "Postgres connection name", default: "localhost", required: true
+  method_option :database, aliases: "-d", desc: "Database name", required: true
+  def postprocess
+    create_geom
+    puts "Post-processing completed."
+  end
+
   # desc "country", "Extract a chunk of a GeoNames database by country and insert into a new table."
   # method_option :dbname, aliases:  "-d", desc: => "Database name", :required => true
   # method_option :user, aliases:  "-u", desc: => "Database user name", :required => true
@@ -291,8 +299,11 @@ class Gazetteer < Thor
 
     def create_geom
       database.run "SELECT AddGeometryColumn ('public','geoname','geometry',4326,'POINT',2);"
+      puts "Geometry columns added."
       database.run "UPDATE geoname SET geometry = ST_PointFromText('POINT(' || longitude || ' ' || latitude || ')', 4326);"
+      puts "Geometry populated."
       database.run "CREATE INDEX idx_geoname_geometry ON public.geoname USING gist(geometry);"
+      puts "Geometry indexed."
     end
 
     def count_rows(file)
