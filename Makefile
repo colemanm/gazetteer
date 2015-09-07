@@ -42,8 +42,8 @@ data/allcountries.txt: data/allcountries.zip
 	rm data/allcountries.zip
 
 data/alternatenames.txt: data/alternatenames.zip
-	unzip -d data/ data/alternateNames.zip
-	touch data/alternateNames.txt
+	unzip -d data/ data/alternatenames.zip
+	touch data/alternatenames.txt
 	touch data/iso-languagecodes.txt
 	rm data/alternatenames.zip
 
