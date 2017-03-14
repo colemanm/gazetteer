@@ -40,7 +40,7 @@ create table geoname (
 	fclass char(1),
 	fcode varchar(10),
 	country varchar(2),
-	cc2 varchar(60),
+	cc2 varchar(200),
 	admin1 varchar(20),
 	admin2 varchar(80),
 	admin3 varchar(20),
